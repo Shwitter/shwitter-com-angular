@@ -6,6 +6,7 @@ import { UserModule } from './user/user.module';
 import { RouterModule, Routes } from '@angular/router';
 import { HeaderComponent } from './shared/header/header.component';
 import { HomeComponent } from './shared/home/home.component';
+import { FooterComponent } from './shared/footer/footer.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent}
@@ -15,7 +16,8 @@ const routes: Routes = [
   declarations: [
     AppComponent,
     HeaderComponent,
-    HomeComponent
+    HomeComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
