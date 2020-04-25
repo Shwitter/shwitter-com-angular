@@ -7,6 +7,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { HeaderComponent } from './shared/header/header.component';
 import { HomeComponent } from './shared/home/home.component';
 import { FooterComponent } from './shared/footer/footer.component';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {AuthInterceptorService} from './user/userServices/auth-interceptor.service';
 
 const routes: Routes = [
   {path: '', component: HomeComponent}
@@ -22,7 +24,8 @@ const routes: Routes = [
   imports: [
     BrowserModule,
     UserModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {AuthService} from '../userServices/auth.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -8,11 +10,16 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 })
 export class RegisterComponent implements OnInit {
   userRegisterForm: FormGroup;
+  errorMessage = '';
+  loading = false;
 
-  constructor() {
+  constructor(private authService: AuthService, private router: Router) {
   }
 
   ngOnInit(): void {
+    if (this.authService.isAuthenticated()) {
+      this.router.navigate(['']);
+    }
     this.userRegisterForm = new FormGroup({
       username: new FormControl('', [Validators.required]),
       email: new FormControl('', [Validators.email, Validators.required]),
@@ -22,8 +29,26 @@ export class RegisterComponent implements OnInit {
   }
 
 
-  register() {
-    console.log(this.userRegisterForm);
+  register(event: any) {
+    this.loading = true;
+    this.errorMessage = '';
+    event.target.disabled = true;
+    event.target.innerHTML = `Sign In &nbsp;<img style="width: 18px" src="assets/images/loading.gif" alt="">`;
+    this.authService.register({
+      username: this.userRegisterForm.value.username,
+      email: this.userRegisterForm.value.email,
+      password: this.userRegisterForm.value.password
+    }).subscribe((res: any) => {
+      this.loading = false;
+      event.target.disabled = false;
+      event.target.innerHTML = `Sign Up`;
+      localStorage.setItem('token', res.token);
+      this.router.navigate(['']);
+    }, error => {
+      this.loading = false;
+      event.target.disabled = false;
+      event.target.innerHTML = `Sign Up`;
+      this.errorMessage = error.error.message;
+    });
   }
-
 }

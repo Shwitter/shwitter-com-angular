@@ -1,13 +1,18 @@
 <div class="userForm">
   <h3>Sign In
-    <img src="assets/images/logo.png" alt="" style="width: 60px; margin-top: -12px;">
+    <img src="assets/images/logo_white.png" alt="" style="width: 60px; margin-top: -12px;">
   </h3>
   <form [formGroup]="userLoginForm" class="form-group">
-    <label for="email">Email</label>
-    <input formControlName="email" id="email" class="form-control">
-    <label for="password">Email</label>
+    <label for="email">Username</label>
+    <input formControlName="username" id="email" class="form-control">
+    <label for="password">Password</label>
     <input type="password" formControlName="password" id="password" class="form-control">
   </form>
-  <button (click)="login()" class="btn btn-light">Sign In</button>
+  <button (click)="login($event)" class="btn btn-light">Sign In
+    <img *ngIf="loading" style="width: 18px" src="assets/images/loading.gif" alt="">
+  </button>
+  <br>
+  <span *ngIf="errorMessage" style="color: red; font-size: 15px;" class="help-text">{{errorMessage}}</span>
 </div>
+
 
