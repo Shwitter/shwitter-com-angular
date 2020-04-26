@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from '../userServices/auth.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-change-password',
@@ -10,12 +11,15 @@ import {AuthService} from '../userServices/auth.service';
 export class ChangePasswordComponent implements OnInit {
   userChangePasswordForm: FormGroup;
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService, private router: Router) {
   }
 
   ngOnInit(): void {
+    if (!this.authService.isAuthenticated()) {
+      this.router.navigate(['/login']);
+    }
     this.userChangePasswordForm = new FormGroup({
-      currentPassword: new FormControl('', [Validators.email, Validators.required]),
+      currentPassword: new FormControl('', [Validators.required]),
       newPassword: new FormControl('', [Validators.required]),
       confirmPassword: new FormControl('', [Validators.required])
     });

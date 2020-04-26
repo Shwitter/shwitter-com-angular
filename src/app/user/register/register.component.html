@@ -5,14 +5,50 @@
   <form [formGroup]="userRegisterForm" class="form-group">
     <label for="username">Username</label>
     <input formControlName="username" id="username" class="form-control">
+    <span
+      *ngIf="userRegisterForm.get('username').invalid && userRegisterForm.get('username').touched"
+      style="color: aqua; font-size: 14px;" class="help-text">Username is required!<br>
+    </span>
+
     <label for="email">Email</label>
     <input formControlName="email" id="email" class="form-control">
+    <span
+      *ngIf="userRegisterForm.get('email').invalid &&
+      userRegisterForm.get('email').touched &&
+      !userRegisterForm.get('email').value"
+      style="color: aqua; font-size: 14px;" class="help-text">Email is required!<br>
+    </span>
+
+    <span
+      *ngIf="userRegisterForm.get('email').invalid && userRegisterForm.get('email').value"
+      style="color: aqua; font-size: 14px;" class="help-text">Please enter valid email address!<br>
+    </span>
+
     <label for="password">Password</label>
     <input type="password" formControlName="password" id="password" class="form-control">
+    <span
+      *ngIf="userRegisterForm.get('password').invalid && userRegisterForm.get('password').touched"
+      style="color: aqua; font-size: 14px;" class="help-text">Password is required!<br>
+    </span>
+
     <label for="repeatPassword">Confirm Password</label>
     <input type="password" formControlName="repeatPassword" id="repeatPassword" class="form-control">
+    <span
+      *ngIf="userRegisterForm.get('repeatPassword').invalid && userRegisterForm.get('repeatPassword').touched"
+      style="color: aqua; font-size: 14px;" class="help-text">Confirm password is required!<br>
+    </span>
+
+    <span
+      *ngIf="userRegisterForm.get('password').value && userRegisterForm.get('repeatPassword').value
+      && userRegisterForm.get('password').value !== userRegisterForm.get('repeatPassword').value"
+      style="color: aqua; font-size: 14px;" class="help-text">Passwords did not match!<br>
+    </span>
+
   </form>
-  <button (click)="register($event)" class="btn btn-light">Sign Up
+  <button [disabled]="userRegisterForm.invalid ||
+   (userRegisterForm.get('password').value && userRegisterForm.get('repeatPassword').value
+      && userRegisterForm.get('password').value !== userRegisterForm.get('repeatPassword').value)"
+          (click)="register($event)" class="btn btn-light">Sign Up
     <img *ngIf="loading" style="width: 18px" src="assets/images/loading.gif" alt="">
   </button>
   <br>

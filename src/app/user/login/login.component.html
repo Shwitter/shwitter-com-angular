@@ -5,14 +5,21 @@
   <form [formGroup]="userLoginForm" class="form-group">
     <label for="email">Username</label>
     <input formControlName="username" id="email" class="form-control">
+    <span
+      *ngIf="userLoginForm.get('username').invalid && userLoginForm.get('username').touched"
+      style="color: aqua; font-size: 14px;" class="help-text">Username is required!<br>
+    </span>
     <label for="password">Password</label>
     <input type="password" formControlName="password" id="password" class="form-control">
+    <span *ngIf="userLoginForm.get('password').invalid && userLoginForm.get('password').touched"
+          style="color: aqua; font-size: 15px;" class="help-text">Password is required!<br>
+    </span>
   </form>
-  <button (click)="login($event)" class="btn btn-light">Sign In
+  <button [disabled]="userLoginForm.invalid" (click)="login($event)" class="btn btn-light">Sign In
     <img *ngIf="loading" style="width: 18px" src="assets/images/loading.gif" alt="">
   </button>
   <br>
-  <span *ngIf="errorMessage" style="color: red; font-size: 15px;" class="help-text">{{errorMessage}}</span>
+  <span *ngIf="errorMessage" style="color: aqua; font-size: 14px;" class="help-text">{{errorMessage}}</span>
 </div>
 
 
