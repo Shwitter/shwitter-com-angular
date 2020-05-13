@@ -31,5 +31,4 @@ export class AuthService {
   changePassword(changePasswordBody) {
     return this.http.post(`${this.baseUrl}user/change-password`, changePasswordBody);
   }
-
 }

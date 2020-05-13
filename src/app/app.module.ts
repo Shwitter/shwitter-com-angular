@@ -9,6 +9,8 @@ import { HomeComponent } from './shared/home/home.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {AuthInterceptorService} from './user/userServices/auth-interceptor.service';
+import {ShwittModule} from './shwitt/shwitt.module';
+import {AuthService} from './user/userServices/auth.service';
 
 const routes: Routes = [
   {path: '', component: HomeComponent}
@@ -19,11 +21,12 @@ const routes: Routes = [
     AppComponent,
     HeaderComponent,
     HomeComponent,
-    FooterComponent
+    FooterComponent,
   ],
   imports: [
     BrowserModule,
     UserModule,
+    ShwittModule,
     RouterModule.forRoot(routes),
     HttpClientModule
   ],
