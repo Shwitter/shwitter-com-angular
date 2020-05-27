@@ -7,10 +7,11 @@ import { RouterModule, Routes } from '@angular/router';
 import { HeaderComponent } from './shared/header/header.component';
 import { HomeComponent } from './shared/home/home.component';
 import { FooterComponent } from './shared/footer/footer.component';
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
-import {AuthInterceptorService} from './user/userServices/auth-interceptor.service';
-import {ShwittModule} from './shwitt/shwitt.module';
-import {AuthService} from './user/userServices/auth.service';
+import { HttpClientModule} from '@angular/common/http';
+import { ShwittModule } from './shwitt/shwitt.module';
+import { ChatComponent } from './chat/chat.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 const routes: Routes = [
   {path: '', component: HomeComponent}
@@ -22,13 +23,16 @@ const routes: Routes = [
     HeaderComponent,
     HomeComponent,
     FooterComponent,
+    ChatComponent,
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     UserModule,
     ShwittModule,
     RouterModule.forRoot(routes),
-    HttpClientModule
+    HttpClientModule,
+    FontAwesomeModule
   ],
   providers: [],
   bootstrap: [AppComponent]
