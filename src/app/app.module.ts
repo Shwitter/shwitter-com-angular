@@ -12,6 +12,7 @@ import { ShwittModule } from './shwitt/shwitt.module';
 import { ChatComponent } from './chat/chat.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MessageBoxComponent } from './chat/message-box/message-box.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent}
@@ -24,6 +25,7 @@ const routes: Routes = [
     HomeComponent,
     FooterComponent,
     ChatComponent,
+    MessageBoxComponent,
   ],
   imports: [
     BrowserModule,

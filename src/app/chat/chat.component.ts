@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {faEnvelope, faEnvelopeOpen} from '@fortawesome/free-solid-svg-icons';
 import {animate, group, state, style, transition, trigger} from '@angular/animations';
 
@@ -33,6 +33,7 @@ import {animate, group, state, style, transition, trigger} from '@angular/animat
 export class ChatComponent implements OnInit {
   envelopeOpenText = faEnvelopeOpen;
   envelopeIcon = faEnvelope;
+  @Output() showMessenger: EventEmitter<boolean> = new EventEmitter<boolean>();
   showChat = false;
 
   constructor() {
@@ -47,6 +48,10 @@ export class ChatComponent implements OnInit {
 
   closeChat() {
     this.showChat = false;
+  }
+
+  onShowMessenger() {
+    this.showMessenger.emit(true);
   }
 
 }

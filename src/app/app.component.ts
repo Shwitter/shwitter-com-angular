@@ -7,4 +7,13 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'shwitter';
+  showMessenger = false;
+
+  onShowMessenger(show: boolean) {
+    this.showMessenger = show;
+  }
+
+  onCloseMessenger() {
+    this.showMessenger = false;
+  }
 }

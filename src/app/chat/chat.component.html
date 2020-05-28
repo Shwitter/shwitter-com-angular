@@ -1,13 +1,15 @@
+
 <button *ngIf="!showChat" (click)="showChatBox()" type="button" class="openChat btn btn-outline-primary">
   Open Chat&nbsp;&nbsp;<fa-icon [icon]="envelopeOpenText"></fa-icon>
 </button>
 
 
 <div *ngIf="showChat" [@slideInOut] id="chatBox">
+<!--  <app-message-box></app-message-box>-->
   <div (click)="closeChat()" style="width: 100%; color: white; text-align: center; background-color: #5f53ad; cursor: pointer; border-radius: 3px">Close Chat</div>
   <div id="chatBoxUsers" style="overflow-y: auto; height: 96%">
     <ul class="list-group">
-      <li class="list-group-item">
+      <li class="list-group-item" (click)="onShowMessenger()">
         <span style="float: left">sdfsdfsdfsdf</span>
         <span style="float: right" class="envelope"><fa-icon [icon]="envelopeIcon"></fa-icon></span>
       </li>
