@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-shwittes',
   templateUrl: './shwittes.component.html',
-  styleUrls: ['./shwittes.component.sass']
+  styleUrls: ['./shwittes.component.less']
 })
 export class ShwittesComponent implements OnInit {
   user = {

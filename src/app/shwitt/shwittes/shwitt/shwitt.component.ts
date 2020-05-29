@@ -4,7 +4,7 @@ import {ShwittService} from '../../shwittService/shwitt.service';
 @Component({
   selector: 'app-shwitt',
   templateUrl: './shwitt.component.html',
-  styleUrls: ['./shwitt.component.sass']
+  styleUrls: ['./shwitt.component.less']
 })
 export class ShwittComponent implements OnInit {
   shwitt = {

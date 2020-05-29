@@ -13,7 +13,7 @@ export class ShwittService {
   }
 
   createShwitt(shwittBody) {
-    return this.http.post(`${this.baseUrl}user/login`, shwittBody);
+    return this.http.post(`${this.baseUrl}/shweet/create`, shwittBody);
   }
 
   likeShwitt() {
