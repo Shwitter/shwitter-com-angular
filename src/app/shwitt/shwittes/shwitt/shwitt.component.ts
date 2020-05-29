@@ -7,33 +7,59 @@ import {ShwittService} from '../../shwittService/shwitt.service';
   styleUrls: ['./shwitt.component.sass']
 })
 export class ShwittComponent implements OnInit {
-  shwitt = {};
-
-  othersShwitt = {
-    liked: null
+  shwitt = {
+    liked: [
+      '123',
+      '1232131231',
+    ],
+    comments: {
+      _id: '5ebd9b5529d484004cc50439',
+      comments: [
+        {
+          _id: '5ebd9be729d484004cc5043b',
+          body: 'asdsadasd1',
+          author: 'tes test1',
+          created: '2020-05-14T19:28:39.507z',
+          updated: "2020-05-14T19:28:39.507Z"
+        }, {
+          _id: '5ebd9be729d484004cc5043b',
+          body: 'asdsadasd2',
+          author: 'tes test2',
+          created: '2020-05-14T19:28:39.507z',
+          updated: "2020-05-14T19:28:39.507Z"
+        }, {
+          _id: '5ebd9be729d484004cc5043b',
+          body: 'asdsadasd3',
+          author: 'test test3',
+          created: '2020-05-14T19:28:39.507z',
+          updated: "2020-05-14T19:28:39.507Z"
+        },
+      ]
+    },
+    action: 'liked',
   };
+
+  commentOpen = false
+
   constructor(private shwittService: ShwittService) { }
 
-  likeShwitt() {
-    this.othersShwitt.liked += 1;
+  handleLikeShwitt() {
+    this.shwittService.likeShwitt();
+  }
+
+  openComments() {
+    this.commentOpen = !this.commentOpen
   }
 
   getShwitts() {
-    this.shwittService.getShwitts().subscribe(res => {
+    this.shwittService.getShwitts().subscribe((res : any) => {
       this.shwitt = res;
-
+      console.log(res);
     })
   }
 
   comment() {
 
-  }
-
-  dislikeShwitt() {
-    this.othersShwitt.liked -= 1;
-    if(this.othersShwitt.liked < 0) {
-      this.othersShwitt.liked = 0;
-    }
   }
 
   ngOnInit(): void {

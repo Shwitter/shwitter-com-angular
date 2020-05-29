@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 
 @Injectable({providedIn: 'root'})
 export class ShwittService {
-  baseUrl = 'http://616e4573.ngrok.io/';
+  baseUrl = 'http://04bac4dc207e.ngrok.io';
 
   constructor(private http: HttpClient) {
   }
@@ -17,11 +17,15 @@ export class ShwittService {
   }
 
   likeShwitt() {
-    return this.http.post(`${this.baseUrl}/shweet/like`, {}, {})
+    return this.http.post(`${this.baseUrl}/shweet/like/`+this.getToken(), {}, {})
   }
 
   getShwitts() {
     return this.http.get(`${this.baseUrl}/shweets/`+this.getToken());
+  }
+
+  getComments() {
+
   }
 
   // login(loginBody) {

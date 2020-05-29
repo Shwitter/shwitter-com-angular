@@ -14,11 +14,18 @@
 
       <div class="button-container">
         <div class="m-2">
-          <img *ngIf="othersShwitt.liked === 0 || othersShwitt.liked === null" (click)="likeShwitt()" src="assets/images/shwitt_not_liked.png" alt="Like">
-          <img *ngIf="othersShwitt.liked > 0" (click)="dislikeShwitt()" src="assets/images/shwitt_liked.png" alt="Like"><span class="ml-1 like-counter" *ngIf="othersShwitt.liked > 0">{{ othersShwitt.liked }}</span>
+          <img *ngIf="shwitt.action !== 'liked'" (click)="handleLikeShwitt()" src="assets/images/shwitt_not_liked.png" alt="Like">
+          <img *ngIf="shwitt.action === 'liked'" (click)="handleLikeShwitt()" src="assets/images/shwitt_liked.png" alt="Like"><span class="ml-1 like-counter" *ngIf="shwitt.liked.length > 0">{{ shwitt.liked.length }}</span>
         </div>
         <div class="m-2">
-          <img src="assets/images/comment.png" alt="comment">
+          <img src="assets/images/comment.png" alt="comment" (click)="openComments()">
+        </div>
+      </div>
+        <div class="comments" *ngIf="commentOpen">
+          <div class="comment" *ngFor="let comment of shwitt.comments.comments">
+            <div class="commentAuthor">
+              <p [ngModel]="comment.author"></p>
+            </div>
         </div>
       </div>
     </div>
