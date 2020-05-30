@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ShwittesComponent } from './shwittes/shwittes.component';
 import { ShwittComponent } from './shwittes/shwitt/shwitt.component';
 import { ShwittRoutingModule } from './shwitt-routing.module';
+import { ReactiveFormsModule } from '@angular/forms';
 import {FormsModule} from "@angular/forms";
 import {HTTP_INTERCEPTORS} from "@angular/common/http";
 import {ShwittInterceptorService} from "./shwittService/shwitt-interceptor.service";
@@ -13,7 +14,8 @@ import {ShwittInterceptorService} from "./shwittService/shwitt-interceptor.servi
   imports: [
     CommonModule,
     ShwittRoutingModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [
     {

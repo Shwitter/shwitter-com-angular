@@ -9,25 +9,40 @@
       </div>
       <div class="shwitt-text pt-2">
 <!--        <img src="https://image.shutterstock.com/image-photo/portrait-smiling-red-haired-millennial-260nw-1194497251.jpg" alt="">-->
-          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+        {{ shwitt.body }}
       </div>
 
       <div class="button-container">
         <div class="m-2">
-          <img *ngIf="shwitt.action !== 'liked'" (click)="handleLikeShwitt()" src="assets/images/shwitt_not_liked.png" alt="Like">
-          <img *ngIf="shwitt.action === 'liked'" (click)="handleLikeShwitt()" src="assets/images/shwitt_liked.png" alt="Like"><span class="ml-1 like-counter" *ngIf="shwitt.liked.length > 0">{{ shwitt.liked.length }}</span>
+          <img *ngIf="action !== 'liked'" (click)="handleLikeShwitt()" src="assets/images/shwitt_not_liked.png" alt="Like">
+          <img *ngIf="action === 'liked'" (click)="handleLikeShwitt()" src="assets/images/shwitt_liked.png" alt="Like"><span class="ml-1 like-counter" *ngIf="action && action.length > 0">{{ action.length }}</span>
         </div>
         <div class="m-2">
           <img src="assets/images/comment.png" alt="comment" (click)="openComments()">
         </div>
       </div>
-        <div class="comments" *ngIf="commentOpen">
-          <div class="comment" *ngFor="let comment of shwitt.comments.comments">
+    </div>
+  </div>
+  <div class="comments" *ngIf="commentOpen">
+    <div *ngIf="shwitt.comments">
+      <div class="comment" *ngFor="let comment of shwitt.comments.comment">
+        <div class="row">
+          <div class="col-md-2"></div>
+          <div class="col-md-10">
             <div class="commentAuthor">
-              <p [ngModel]="comment.author"></p>
+              <div> {{ comment.author }}</div>
+              <div> {{ comment.body }}</div>
+              <div class="pull-right date">
+                {{ comment.updated | date: 'short' }}
+              </div>
             </div>
+
+          </div>
         </div>
       </div>
+    </div>
+    <div class="noComment" *ngIf="!shwitt.comments || shwitt.comments.comment">
+      There are no comments yet
     </div>
   </div>
 </div>

@@ -3,25 +3,28 @@ import {HttpClient} from '@angular/common/http';
 
 @Injectable({providedIn: 'root'})
 export class ShwittService {
-  baseUrl = 'http://04bac4dc207e.ngrok.io';
-
+  baseUrl = 'http://api.shwitter.localhost/';
+  token;
   constructor(private http: HttpClient) {
   }
 
   getToken() {
+    this.token = localStorage.getItem('token');
     return localStorage.getItem('token');
   }
 
   createShwitt(shwittBody) {
-    return this.http.post(`${this.baseUrl}/shweet/create`, shwittBody);
+    return this.http.post(`${this.baseUrl}shweet/create`, shwittBody);
   }
 
-  likeShwitt() {
-    return this.http.post(`${this.baseUrl}/shweet/like/`+this.getToken(), {}, {})
+  likeShwitt(likeBody) {
+    return this.http.post(`${this.baseUrl}shweet/like`, likeBody)
   }
 
   getShwitts() {
-    return this.http.get(`${this.baseUrl}/shweets/`+this.getToken());
+    return this.http.get(`${this.baseUrl}shweets/`, {
+      headers: this.token
+    });
   }
 
   getComments() {
