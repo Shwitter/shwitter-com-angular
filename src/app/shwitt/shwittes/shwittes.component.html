@@ -21,7 +21,7 @@
       <label for="upload-img-button" class="float-right mt-3 mb-2 mr-3">
         <img class="upload-img" src="/assets/images/upload.svg" alt="">
       </label>
-      <input type="file" formControlName="shweetimage" name="shweetimage" id="upload-img-button" style="display: none">
+      <input type="file" (change)="ImageChange($event)" name="shweetimage" id="upload-img-button" style="display: none">
     </div>
   </div>
 </form>
