@@ -1,5 +1,6 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {faLocationArrow} from '@fortawesome/free-solid-svg-icons';
+import {ChatService} from '../chat.service';
 
 @Component({
   selector: 'app-message-box',
@@ -8,16 +9,25 @@ import {faLocationArrow} from '@fortawesome/free-solid-svg-icons';
 })
 export class MessageBoxComponent implements OnInit {
   sendArrow = faLocationArrow;
-  @Output() close: EventEmitter<any> = new EventEmitter<any>();
+  @Output() closeM: EventEmitter<any> = new EventEmitter<any>();
+  @Input() username: string;
+  message: string;
 
-  constructor() {
+  constructor(private chatService: ChatService) {
   }
 
   ngOnInit(): void {
+    this.chatService.receiveMessage().subscribe(msg => {
+      console.log(msg);
+    });
   }
 
   closeMessenger() {
-    this.close.emit();
+    this.closeM.emit();
+  }
+
+  sendMessage() {
+    this.chatService.sendMessage({message: this.message, receiver: this.username, sender: localStorage.getItem('token')});
   }
 
 }

@@ -9,41 +9,8 @@
   <div (click)="closeChat()" style="width: 100%; color: white; text-align: center; background-color: #5f53ad; cursor: pointer; border-radius: 3px">Close Chat</div>
   <div id="chatBoxUsers" style="overflow-y: auto; height: 96%">
     <ul class="list-group">
-      <li class="list-group-item" (click)="onShowMessenger()">
-        <span style="float: left">sdfsdfsdfsdf</span>
-        <span style="float: right" class="envelope"><fa-icon [icon]="envelopeIcon"></fa-icon></span>
-      </li>
-      <li class="list-group-item">
-        <span style="float: left">sdfsdfsdfsdf</span>
-        <span style="float: right" class="envelope"><fa-icon [icon]="envelopeIcon"></fa-icon></span>
-      </li>
-      <li class="list-group-item">
-        <span style="float: left">sdfsdfsdfsdf</span>
-        <span style="float: right" class="envelope"><fa-icon [icon]="envelopeIcon"></fa-icon></span>
-      </li>
-      <li class="list-group-item">
-        <span style="float: left">sdfsdfsdfsdf</span>
-        <span style="float: right" class="envelope"><fa-icon [icon]="envelopeIcon"></fa-icon></span>
-      </li>
-      <li class="list-group-item">
-        <span style="float: left">sdfsdfsdfsdf</span>
-        <span style="float: right" class="envelope"><fa-icon [icon]="envelopeIcon"></fa-icon></span>
-      </li>
-      <li class="list-group-item">
-        <span style="float: left">sdfsdfsdfsdf</span>
-        <span style="float: right" class="envelope"><fa-icon [icon]="envelopeIcon"></fa-icon></span>
-      </li>
-      <li class="list-group-item">
-        <span style="float: left">sdfsdfsdfsdf</span>
-        <span style="float: right" class="envelope"><fa-icon [icon]="envelopeIcon"></fa-icon></span>
-      </li>
-      <li class="list-group-item">
-        <span style="float: left">sdfsdfsdfsdf</span>
-        <span style="float: right" class="envelope"><fa-icon [icon]="envelopeIcon"></fa-icon></span>
-      </li>
-
-      <li class="list-group-item">
-        <span style="float: left">sdfsdfsdfsdf</span>
+      <li *ngFor="let user of users" class="list-group-item" (click)="onShowMessenger(user.username)">
+        <span style="float: left">{{user.username}}</span>
         <span style="float: right" class="envelope"><fa-icon [icon]="envelopeIcon"></fa-icon></span>
       </li>
     </ul>

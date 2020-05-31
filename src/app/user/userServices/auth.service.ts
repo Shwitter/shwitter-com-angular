@@ -1,9 +1,10 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 @Injectable({providedIn: 'root'})
 export class AuthService {
-  baseUrl = 'http://616e4573.ngrok.io/';
+  baseUrl = environment.baseUrl;
 
   constructor(private http: HttpClient) {
   }

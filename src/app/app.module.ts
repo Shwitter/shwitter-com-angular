@@ -13,10 +13,12 @@ import { ChatComponent } from './chat/chat.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MessageBoxComponent } from './chat/message-box/message-box.component';
+import {FormsModule} from '@angular/forms';
 
 const routes: Routes = [
   {path: '', component: HomeComponent}
 ];
+
 
 @NgModule({
   declarations: [
@@ -34,7 +36,8 @@ const routes: Routes = [
     ShwittModule,
     RouterModule.forRoot(routes),
     HttpClientModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

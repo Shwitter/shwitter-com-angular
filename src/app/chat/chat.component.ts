@@ -1,6 +1,7 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {faEnvelope, faEnvelopeOpen} from '@fortawesome/free-solid-svg-icons';
 import {animate, group, state, style, transition, trigger} from '@angular/animations';
+import {ChatService} from './chat.service';
 
 @Component({
   selector: 'app-chat',
@@ -33,13 +34,20 @@ import {animate, group, state, style, transition, trigger} from '@angular/animat
 export class ChatComponent implements OnInit {
   envelopeOpenText = faEnvelopeOpen;
   envelopeIcon = faEnvelope;
-  @Output() showMessenger: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() showMessenger: EventEmitter<any> = new EventEmitter<any>();
   showChat = false;
+  users: any = [];
 
-  constructor() {
+  constructor(private chatService: ChatService) {
   }
 
   ngOnInit(): void {
+    this.chatService.getUserList().subscribe(users => {
+      this.users = users;
+      const username = localStorage.getItem('username');
+      this.users = this.users.filter(x => x.username !== username);
+      // console.log(this.users);
+    });
   }
 
   showChatBox() {
@@ -50,8 +58,11 @@ export class ChatComponent implements OnInit {
     this.showChat = false;
   }
 
-  onShowMessenger() {
-    this.showMessenger.emit(true);
+  onShowMessenger(name) {
+    this.showMessenger.emit({
+      show: true,
+      username: name
+    });
   }
 
 }

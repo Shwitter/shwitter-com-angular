@@ -1,5 +1,5 @@
 <app-header></app-header>
 <router-outlet></router-outlet>
-<app-message-box *ngIf="showMessenger" (close)="onCloseMessenger()"></app-message-box>
+<app-message-box *ngIf="showMessenger" [username]="username" (closeM)="onCloseMessenger()"></app-message-box>
 <app-chat (showMessenger)="onShowMessenger($event)"></app-chat>
 <app-footer></app-footer>

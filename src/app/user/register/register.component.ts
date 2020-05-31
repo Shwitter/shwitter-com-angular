@@ -43,6 +43,7 @@ export class RegisterComponent implements OnInit {
       event.target.disabled = false;
       event.target.innerHTML = `Sign Up`;
       localStorage.setItem('token', res.token);
+      localStorage.setItem('username', this.userRegisterForm.value.username);
       this.router.navigate(['']);
     }, error => {
       this.loading = false;

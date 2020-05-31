@@ -8,9 +8,12 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'shwitter';
   showMessenger = false;
+  username: string;
 
-  onShowMessenger(show: boolean) {
-    this.showMessenger = show;
+  onShowMessenger(event: any) {
+    this.showMessenger = event.show;
+    this.username = event.username;
+    console.log(event);
   }
 
   onCloseMessenger() {
