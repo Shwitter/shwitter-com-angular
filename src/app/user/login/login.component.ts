@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from '../userServices/auth.service';
 import {Router} from '@angular/router';
+import * as io from 'socket.io-client';
+import {environment} from '../../../environments/environment';
+
 
 @Component({
   selector: 'app-login',
@@ -12,8 +15,12 @@ export class LoginComponent implements OnInit {
   userLoginForm: FormGroup;
   errorMessage = '';
   loading = false;
+  socket: any;
+  baseUrl = environment.baseUrl;
+
 
   constructor(private authService: AuthService, private router: Router) {
+    this.socket = io(this.baseUrl);
   }
 
   ngOnInit() {
@@ -41,6 +48,7 @@ export class LoginComponent implements OnInit {
       event.target.disabled = false;
       event.target.innerHTML = `Sign In`;
       localStorage.setItem('token', res.token);
+      this.socket.emit('new-user', {jwt: res.token});
       localStorage.setItem('username', this.userLoginForm.value.username);
       this.router.navigate(['']);
     }, error => {
