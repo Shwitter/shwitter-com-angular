@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {faLocationArrow} from '@fortawesome/free-solid-svg-icons';
 import {ChatService} from '../chat.service';
+import {WebSocketsService} from '../../shared/services/webSockets.service';
 
 @Component({
   selector: 'app-message-box',
@@ -13,11 +14,11 @@ export class MessageBoxComponent implements OnInit {
   @Input() username: string;
   message: string;
 
-  constructor(private chatService: ChatService) {
+  constructor(private chatService: ChatService, private socketService: WebSocketsService) {
   }
 
   ngOnInit(): void {
-    this.chatService.receiveMessage().subscribe(msg => {
+    this.socketService.receiveMessage().subscribe(msg => {
       console.log(msg);
     });
   }
@@ -27,7 +28,6 @@ export class MessageBoxComponent implements OnInit {
   }
 
   sendMessage() {
-    this.chatService.sendMessage({message: this.message, receiver: this.username, sender: localStorage.getItem('token')});
+    this.socketService.sendMessage({message: this.message, receiver: this.username, sender: localStorage.getItem('token')});
   }
-
 }

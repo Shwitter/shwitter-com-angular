@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from '../userServices/auth.service';
 import {Router} from '@angular/router';
-import * as io from 'socket.io-client';
 import {environment} from '../../../environments/environment';
+import {WebSocketsService} from '../../shared/services/webSockets.service';
 
 
 @Component({
@@ -19,8 +19,7 @@ export class LoginComponent implements OnInit {
   baseUrl = environment.baseUrl;
 
 
-  constructor(private authService: AuthService, private router: Router) {
-    this.socket = io(this.baseUrl);
+  constructor(private authService: AuthService, private router: Router, private socketService: WebSocketsService) {
   }
 
   ngOnInit() {
@@ -48,7 +47,8 @@ export class LoginComponent implements OnInit {
       event.target.disabled = false;
       event.target.innerHTML = `Sign In`;
       localStorage.setItem('token', res.token);
-      this.socket.emit('new-user', {jwt: res.token});
+      this.socketService.emitNewUser(res.token);
+      // this.socket.emit('new-user', {jwt: res.token});
       localStorage.setItem('username', this.userLoginForm.value.username);
       this.router.navigate(['']);
     }, error => {
