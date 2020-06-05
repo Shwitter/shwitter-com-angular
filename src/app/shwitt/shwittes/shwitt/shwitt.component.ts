@@ -9,7 +9,6 @@ import {ShwittService} from '../../shwittService/shwitt.service';
 export class ShwittComponent implements OnInit {
 
   @Input() shwitt: any;
-
   // shwitts = {
   //   _id: '123445555213sdsada',
   //   liked: [
@@ -43,8 +42,9 @@ export class ShwittComponent implements OnInit {
   // };
 
   action = null;
-
+  userComment = null;
   commentOpen = false;
+  canUpdate = false;
 
   constructor(private shwittService: ShwittService) { }
 
@@ -53,11 +53,39 @@ export class ShwittComponent implements OnInit {
   }
 
   openComments() {
-    this.commentOpen = !this.commentOpen
+    this.commentOpen = !this.commentOpen;
+    console.log(this.shwitt.comments)
   }
 
   comment() {
+    this.shwittService.commentOnShwitt({comment_id: this.shwitt.comments._id, body: this.userComment}).subscribe((res: any)=> {
+      this.shwitt.comments = res;
+      this.userComment = null;
+    })
+  }
 
+  updateComment(comment) {
+    let updateCommentBody = {
+      comments_id: this.shwitt.comments._id,
+      comment_id: comment._id,
+      body: comment.body
+    }
+    this.shwittService.updateComment(updateCommentBody).subscribe(res => {
+      if(res) {
+        comment.canUpdate = false;
+      }
+    });
+  }
+
+  removeComment(comment) {
+    this.shwittService.removeComment({comment_id: comment._id}).subscribe(res => {
+
+    })
+  }
+
+  // sub/unsub to a user
+  subToUser() {
+    this.shwittService.subToUser
   }
 
   ngOnInit(): void {

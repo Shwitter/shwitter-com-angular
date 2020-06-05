@@ -20,7 +20,6 @@ export class ShwittesComponent implements OnInit {
 
 
   urls = [];
-  arr = [1, 2, 3, 4, 5];
 
   constructor(private shwittService: ShwittService,
               private router: Router,
@@ -43,21 +42,17 @@ export class ShwittesComponent implements OnInit {
 
   }
 
-  shwitt(event) {
-    // this.shwittService.createShwitt(this.shwittForm).subscribe(res => {
-    //   if(res) {
-    //     this.getShwitts();
-    //     console.log(this.shwitts);
-
-    //   }
-    // })
-
+  shwitt() {
     const formData = new FormData();
     formData.append('body', this.shwittForm.value.body);
     formData.append('shweetimage', this.shwittForm.value.shweetimage);
 
     this.http.post(`http://api.shwitter.localhost/shweet/create`, formData).subscribe(res => {
-      this.getShwitts();
+      if(res) {
+        this.getShwitts();
+        this.shwittForm.value.body = null;
+        this.shwittForm.value.shweetimage = null;
+      }
     });
 
 

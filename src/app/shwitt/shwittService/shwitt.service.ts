@@ -17,6 +17,18 @@ export class ShwittService {
     return this.http.post(`${this.baseUrl}shweet/create`, shwittBody);
   }
 
+  commentOnShwitt(commentBody) {
+    return this.http.post(`${this.baseUrl}comment/create`, commentBody);
+  }
+
+  updateComment(updateCommentBody) {
+    return this.http.post(`${this.baseUrl}comment/update`, updateCommentBody);
+  }
+
+  removeComment(removeCommentBody) {
+    return this.http.delete(`${this.baseUrl}comment/delete/` + removeCommentBody.comment_id);
+  }
+
   likeShwitt(likeBody) {
     return this.http.post(`${this.baseUrl}shweet/like`, likeBody)
   }
@@ -27,8 +39,8 @@ export class ShwittService {
     });
   }
 
-  getComments() {
-
+  subToUser() {
+    // return this.http.post(`${this.baseUrl}`)
   }
 
   // login(loginBody) {
