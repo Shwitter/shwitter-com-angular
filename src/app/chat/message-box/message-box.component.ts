@@ -35,6 +35,7 @@ export class MessageBoxComponent implements OnInit {
   sendMessage() {
     const msg = {message: this.message, receiver: this.username, sender: localStorage.getItem('token')};
     this.messages.push(msg);
+    this.message = '';
     this.socketService.sendMessage(msg);
   }
 }
