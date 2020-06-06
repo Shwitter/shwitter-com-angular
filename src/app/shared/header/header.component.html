@@ -16,8 +16,8 @@
     </li>
   </ul>
   <ul *ngIf="authService.isAuthenticated()" class="navbar-nav ml-auto">
-    <button routerLink="change-password" type="button" class="btn btn-light">
-      Change Password
+    <button routerLink="profile" type="button" class="btn btn-light">
+      <fa-icon [icon]="userIcon"></fa-icon> {{ getUserName() }}
     </button>&nbsp;&nbsp;
     <li class="nav-item">
       <button (click)="signOut()" type="button" class="btn btn-light">

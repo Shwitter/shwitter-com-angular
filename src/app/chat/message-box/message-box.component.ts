@@ -13,13 +13,18 @@ export class MessageBoxComponent implements OnInit {
   @Output() closeM: EventEmitter<any> = new EventEmitter<any>();
   @Input() username: string;
   message: string;
+  messages = [];
 
   constructor(private chatService: ChatService, private socketService: WebSocketsService) {
   }
 
   ngOnInit(): void {
     this.socketService.receiveMessage().subscribe(msg => {
+      this.messages.push(msg);
+    });
+    this.socketService.getOldMessages().subscribe((msg: any) => {
       console.log(msg);
+      this.messages.push(...msg);
     });
   }
 
@@ -28,6 +33,8 @@ export class MessageBoxComponent implements OnInit {
   }
 
   sendMessage() {
-    this.socketService.sendMessage({message: this.message, receiver: this.username, sender: localStorage.getItem('token')});
+    const msg = {message: this.message, receiver: this.username, sender: localStorage.getItem('token')};
+    this.messages.push(msg);
+    this.socketService.sendMessage(msg);
   }
 }

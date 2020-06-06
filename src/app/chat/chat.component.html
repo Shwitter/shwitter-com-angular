@@ -1,5 +1,5 @@
 
-<button *ngIf="!showChat" (click)="showChatBox()" type="button" class="openChat btn btn-outline-primary">
+<button *ngIf="!showChat && userService.isAuthenticated()" (click)="showChatBox()" type="button" class="openChat btn btn-outline-primary">
   Open Chat&nbsp;&nbsp;<fa-icon [icon]="envelopeOpenText"></fa-icon>
 </button>
 

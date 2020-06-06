@@ -30,4 +30,12 @@ export class WebSocketsService {
     this.socket.emit('new-user', {jwt: token});
   }
 
+  getOldMessages() {
+    return new Observable(observer => {
+      this.socket.on('old-messages', msg => {
+        observer.next(msg);
+      });
+    });
+  }
+
 }

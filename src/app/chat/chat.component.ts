@@ -2,6 +2,7 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {faEnvelope, faEnvelopeOpen} from '@fortawesome/free-solid-svg-icons';
 import {animate, group, state, style, transition, trigger} from '@angular/animations';
 import {ChatService} from './chat.service';
+import {AuthService} from '../user/userServices/auth.service';
 
 @Component({
   selector: 'app-chat',
@@ -38,7 +39,7 @@ export class ChatComponent implements OnInit {
   showChat = false;
   users: any = [];
 
-  constructor(private chatService: ChatService) {
+  constructor(private chatService: ChatService, private userService: AuthService) {
   }
 
   ngOnInit(): void {

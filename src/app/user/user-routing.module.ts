@@ -5,11 +5,13 @@ import { RegisterComponent } from './register/register.component';
 import {RouterModule, Routes} from '@angular/router';
 import {HomeComponent} from '../shared/home/home.component';
 import {ChangePasswordComponent} from './change-password/change-password.component';
+import {ProfileComponent} from './profile/profile.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent},
   { path: 'register', component: RegisterComponent},
   { path: 'change-password', component: ChangePasswordComponent},
+  { path: 'profile', component: ProfileComponent},
   { path: '', component: HomeComponent},
 
 ];
