@@ -39,7 +39,7 @@ export class ChatComponent implements OnInit {
   showChat = false;
   users: any = [];
 
-  constructor(private chatService: ChatService, private userService: AuthService) {
+  constructor(private chatService: ChatService, public userService: AuthService) {
   }
 
   ngOnInit(): void {
