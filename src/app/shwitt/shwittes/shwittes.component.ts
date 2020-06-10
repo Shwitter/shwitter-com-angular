@@ -13,12 +13,13 @@ import {HttpClient} from '@angular/common/http';
   styleUrls: ['./shwittes.component.less']
 })
 export class ShwittesComponent implements OnInit {
-  newShwitt;
+  newShwitt = {
+    text: '',
+    image: null
+  }
+  subscribes;
   shwitts;
-  shwittForm: FormGroup;
-  asd: any;
-
-
+  // shwittForm: FormGroup;
   urls = [];
 
   constructor(private shwittService: ShwittService,
@@ -35,23 +36,32 @@ export class ShwittesComponent implements OnInit {
       this.getShwitts();
     }
 
-    this.shwittForm = new FormGroup({
-      body: new FormControl('', [Validators.required]),
-      shweetimage: new FormControl('', [Validators.required])
-    });
+    // this.shwittForm = new FormGroup({
+    //   body: new FormControl('', [Validators.required]),
+    //   shweetimage: new FormControl('', [Validators.required])
+    // });
+    this.getMe()
+  }
 
+  getMe() {
+    this.shwittService.getMe().subscribe((res: any) => {
+      this.subscribes = res.subscribes;
+    });
   }
 
   shwitt() {
-    const formData = new FormData();
-    formData.append('body', this.shwittForm.value.body);
-    formData.append('shweetimage', this.shwittForm.value.shweetimage);
+    // const formData = new FormData();
+    // formData.append('body', this.shwittForm.value.body);
+    // formData.append('shweetimage', this.shwittForm.value.shweetimage);
 
-    this.http.post(`http://api.shwitter.localhost/shweet/create`, formData).subscribe(res => {
+    let newShwittBody = {
+      body: this.newShwitt.text,
+      shweetimage: this.newShwitt.image // TODO::
+    }
+
+    this.http.post(`http://api.shwitter.localhost/shweet/create`, newShwittBody).subscribe(res => {
       if(res) {
         this.getShwitts();
-        this.shwittForm.value.body = null;
-        this.shwittForm.value.shweetimage = null;
       }
     });
 
@@ -66,13 +76,21 @@ export class ShwittesComponent implements OnInit {
       reader.readAsDataURL(file);
       console.log(reader.result);
       reader.onload = () => {
-        this.shwittForm.patchValue({
-          shweetimage: reader.result
-        });
+        // this.shwittForm.patchValue({
+        //   shweetimage: reader.result
+        // });
+        this.newShwitt.image = reader.result;
+        console.log(this.newShwitt.image);
 
         this.cd.markForCheck();
       };
     }
+  }
+
+  getSubShwitts() {
+    this.shwittService.getSubShwitts().subscribe((res: any) => {
+      this.shwitts = res;
+    });
   }
 
   getShwitts() {

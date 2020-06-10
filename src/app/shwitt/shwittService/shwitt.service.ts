@@ -17,6 +17,14 @@ export class ShwittService {
     return this.http.post(`${this.baseUrl}shweet/create`, shwittBody);
   }
 
+  getMe() {
+    return this.http.get(`${this.baseUrl}user/me`);
+  }
+
+  subscribeToUser(user_id) {
+    return this.http.post(`${this.baseUrl}user/subscribe`, user_id);
+  }
+
   commentOnShwitt(commentBody) {
     return this.http.post(`${this.baseUrl}comment/create`, commentBody);
   }
@@ -25,8 +33,9 @@ export class ShwittService {
     return this.http.post(`${this.baseUrl}comment/update`, updateCommentBody);
   }
 
-  removeComment(removeCommentBody) {
-    return this.http.delete(`${this.baseUrl}comment/delete/` + removeCommentBody.comment_id);
+  removeComment(comment_id, removeCommentBody) {
+    console.log(removeCommentBody);
+    return this.http.post(`${this.baseUrl}comment/comment/${comment_id}`,  removeCommentBody);
   }
 
   likeShwitt(likeBody) {
@@ -37,6 +46,10 @@ export class ShwittService {
     return this.http.get(`${this.baseUrl}shweets/`, {
       headers: this.token
     });
+  }
+
+  getSubShwitts() {
+    return this.http.get(`${this.baseUrl}subscribed-shweets`);
   }
 
   subToUser() {

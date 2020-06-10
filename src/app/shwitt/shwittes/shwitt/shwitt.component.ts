@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import {ShwittService} from '../../shwittService/shwitt.service';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Component({
   selector: 'app-shwitt',
@@ -7,44 +8,17 @@ import {ShwittService} from '../../shwittService/shwitt.service';
   styleUrls: ['./shwitt.component.less']
 })
 export class ShwittComponent implements OnInit {
-
   @Input() shwitt: any;
-  // shwitts = {
-  //   _id: '123445555213sdsada',
-  //   liked: [
-  //     '123',
-  //     '1232131231',
-  //   ],
-  //   comments: {
-  //     _id: '5ebd9b5529d484004cc50439',
-  //     comment: [
-  //       {
-  //         _id: '5ebd9be729d484004cc5043b',
-  //         body: 'asdsadasd1',
-  //         author: 'tes test1',
-  //         created: '2020-05-14T19:28:39.507z',
-  //         updated: "2020-05-14T19:28:39.507Z"
-  //       }, {
-  //         _id: '5ebd9be729d484004cc5043b',
-  //         body: 'asdsadasd2',
-  //         author: 'tes test2',
-  //         created: '2020-05-14T19:28:39.507z',
-  //         updated: "2020-05-14T19:28:39.507Z"
-  //       }, {
-  //         _id: '5ebd9be729d484004cc5043b',
-  //         body: 'asdsadasd3',
-  //         author: 'test test3',
-  //         created: '2020-05-14T19:28:39.507z',
-  //         updated: "2020-05-14T19:28:39.507Z"
-  //       },
-  //     ]
-  //   },
-  // };
+  @Input() subscribes: any;
+
 
   action = null;
   userComment = null;
   commentOpen = false;
   canUpdate = false;
+  subbed = false;
+  unsub = false;
+  decodedToken;
 
   constructor(private shwittService: ShwittService) { }
 
@@ -58,7 +32,7 @@ export class ShwittComponent implements OnInit {
   }
 
   comment() {
-    this.shwittService.commentOnShwitt({comment_id: this.shwitt.comments._id, body: this.userComment}).subscribe((res: any)=> {
+    this.shwittService.commentOnShwitt({comment_id: this.shwitt.comments? this.shwitt.comments._id : null, body: this.userComment}).subscribe((res: any)=> {
       this.shwitt.comments = res;
       this.userComment = null;
     })
@@ -78,18 +52,56 @@ export class ShwittComponent implements OnInit {
   }
 
   removeComment(comment) {
-    this.shwittService.removeComment({comment_id: comment._id}).subscribe(res => {
-
+    this.shwittService.removeComment(this.shwitt.comments._id,{comments_id: comment._id}).subscribe(res => {
+      //TODO:
     })
   }
 
   // sub/unsub to a user
   subToUser() {
-    this.shwittService.subToUser
+    let user_id = {
+      user_id: this.shwitt.author._id
+    }
+    this.shwittService.subscribeToUser(user_id).subscribe((res: any) => {
+      if(res.action === "subscribed") {
+        this.unsub = true;
+        this.subbed = true;
+      }
+    });
+  }
+
+  unsubToUser() {
+    let user_id = {
+      user_id: this.shwitt.author._id
+    }
+    this.shwittService.subscribeToUser(user_id).subscribe((res: any) => {
+      console.log("unsubbed", res);
+    });
+
+    this.subbed = false;
+  }
+
+  getUser() {
+
   }
 
   ngOnInit(): void {
-    console.log(this.shwitt);
+    const token = localStorage.getItem('token');
+    const helper = new JwtHelperService();
+
+    this.decodedToken = helper.decodeToken(token);
+    if(this.subscribes) {
+      this.subscribes.forEach(sub => {
+        if(sub._id === this.shwitt.author._id) {
+          this.subbed = true;
+          this.unsub = true;
+        } else {
+          this.subbed = false;
+          this.unsub = false;
+        }
+      })
+    }
+
   }
 
 }
