@@ -19,6 +19,7 @@ export class ShwittesComponent implements OnInit {
   }
   subscribes;
   shwitts;
+  currentUser;
   // shwittForm: FormGroup;
   urls = [];
 
@@ -46,6 +47,7 @@ export class ShwittesComponent implements OnInit {
   getMe() {
     this.shwittService.getMe().subscribe((res: any) => {
       this.subscribes = res.subscribes;
+      this.currentUser = res;
     });
   }
 

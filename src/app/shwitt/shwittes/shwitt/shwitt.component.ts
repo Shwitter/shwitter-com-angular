@@ -10,7 +10,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 export class ShwittComponent implements OnInit {
   @Input() shwitt: any;
   @Input() subscribes: any;
-
+  @Input() currentUser: any;
 
   action = null;
   userComment = null;
@@ -19,16 +19,19 @@ export class ShwittComponent implements OnInit {
   subbed = false;
   unsub = false;
   decodedToken;
+  likes_length;
 
   constructor(private shwittService: ShwittService) { }
 
   handleLikeShwitt() {
-    this.shwittService.likeShwitt({shweet_id: this.shwitt._id});
+    this.shwittService.likeShwitt({shweet_id: this.shwitt._id}).subscribe((res: any) => {
+      this.action = res.action;
+      this.likes_length = res.shweet.likes.length;
+    });
   }
 
   openComments() {
     this.commentOpen = !this.commentOpen;
-    console.log(this.shwitt.comments)
   }
 
   comment() {
@@ -101,6 +104,15 @@ export class ShwittComponent implements OnInit {
         }
       })
     }
+    console.log(this.shwitt.likes);
+
+    this.shwitt.likes.forEach(element => {
+      console.log(this.currentUser);
+      if(element._id === this.currentUser._id) {
+        this.likes_length = this.shwitt.likes.length;
+        this.action = 'liked';
+      }
+    })
 
   }
 

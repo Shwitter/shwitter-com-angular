@@ -5,7 +5,7 @@
     </div>
     <div class="col-md-10">
       <div class="user-info-username">
-        {{ shwitt.author.username}} {{ shwitt.author._id  }}, {{ decodedToken.user.id }}
+        {{ shwitt.author.username}}
 
         <button class="btn btn-primary p-1 m-1" *ngIf="shwitt.author._id !== decodedToken.user.id && !subbed" (click)="subToUser()">
             Subscribe
@@ -26,11 +26,11 @@
       </div>
 
       <div class="button-container">
-        <div class="m-2">
-          <img *ngIf="action !== 'liked'" (click)="handleLikeShwitt()" src="assets/images/shwitt_not_liked.png" alt="Like">
-          <img *ngIf="action === 'liked'" (click)="handleLikeShwitt()" src="assets/images/shwitt_liked.png" alt="Like"><span class="ml-1 like-counter" *ngIf="action && action.length > 0">{{ action.length }}</span>
+        <div class="m-2" (click)="handleLikeShwitt()" style="cursor: pointer">
+          <img *ngIf="action !== 'liked'" src="assets/images/shwitt_not_liked.png" alt="Like">
+          <img *ngIf="action === 'liked'" src="assets/images/shwitt_liked.png" alt="Like"><span class="ml-1 like-counter" *ngIf="action && likes_length > 0">{{ likes_length }}</span>
         </div>
-        <div class="m-2">
+        <div class="m-2" style="cursor: pointer">
           <img src="assets/images/comment.png" alt="comment" (click)="openComments()">
         </div>
       </div>
