@@ -20,13 +20,15 @@ export class ShwittComponent implements OnInit {
   unsub = false;
   decodedToken;
   likes_length;
+  liked;
 
   constructor(private shwittService: ShwittService) { }
 
-  handleLikeShwitt() {
-    this.shwittService.likeShwitt({shweet_id: this.shwitt._id}).subscribe((res: any) => {
-      this.action = res.action;
+  handleLikeShwitt(action) {
+    this.shwittService.likeShwitt({shweet_id: this.shwitt._id, liked: action}).subscribe((res: any) => {
       this.likes_length = res.shweet.likes.length;
+      this.liked = res.shweet.liked;
+      console.log(res);
     });
   }
 
@@ -93,26 +95,26 @@ export class ShwittComponent implements OnInit {
     const helper = new JwtHelperService();
 
     this.decodedToken = helper.decodeToken(token);
-    if(this.subscribes) {
-      this.subscribes.forEach(sub => {
-        if(sub._id === this.shwitt.author._id) {
-          this.subbed = true;
-          this.unsub = true;
-        } else {
-          this.subbed = false;
-          this.unsub = false;
-        }
-      })
-    }
-    console.log(this.shwitt.likes);
-
-    this.shwitt.likes.forEach(element => {
-      console.log(this.currentUser);
-      if(element._id === this.currentUser._id) {
-        this.likes_length = this.shwitt.likes.length;
-        this.action = 'liked';
-      }
-    })
+    // if(this.subscribes) {
+    //   this.subscribes.forEach(sub => {
+    //     if(sub._id === this.shwitt.author._id) {
+    //       this.subbed = true;
+    //       this.unsub = true;
+    //     } else {
+    //       this.subbed = false;
+    //       this.unsub = false;
+    //     }
+    //   })
+    // }
+    // console.log(this.shwitt.likes);
+    //
+    // this.shwitt.likes.forEach(element => {
+    //   console.log(this.currentUser);
+    //   if(element._id === this.currentUser._id) {
+    //     this.likes_length = this.shwitt.likes.length;
+    //     this.action = 'liked';
+    //   }
+    // })
 
   }
 

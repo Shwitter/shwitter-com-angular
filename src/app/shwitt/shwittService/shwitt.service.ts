@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 
 @Injectable({providedIn: 'root'})
 export class ShwittService {
-  baseUrl = 'http://29e41dc308ed.ngrok.io/'; //http://api.shwitter.localhost/
+  baseUrl = 'http://6393759888fb.ngrok.io/'; //http://api.shwitter.localhost/
   token;
   constructor(private http: HttpClient) {
   }

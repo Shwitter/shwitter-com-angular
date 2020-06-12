@@ -26,9 +26,9 @@
       </div>
 
       <div class="button-container">
-        <div class="m-2" (click)="handleLikeShwitt()" style="cursor: pointer">
-          <img *ngIf="action !== 'liked'" src="assets/images/shwitt_not_liked.png" alt="Like">
-          <img *ngIf="action === 'liked'" src="assets/images/shwitt_liked.png" alt="Like"><span class="ml-1 like-counter" *ngIf="action && likes_length > 0">{{ likes_length }}</span>
+        <div class="m-2"  style="cursor: pointer">
+          <img *ngIf="action !== 'liked'" src="assets/images/shwitt_not_liked.png" alt="Like" (click)="handleLikeShwitt(true)">
+          <img *ngIf="action === 'liked'" src="assets/images/shwitt_liked.png" alt="Like" (click)="handleLikeShwitt(false)"><span class="ml-1 like-counter" *ngIf="action && likes_length > 0">{{ likes_length }}</span>
         </div>
         <div class="m-2" style="cursor: pointer">
           <img src="assets/images/comment.png" alt="comment" (click)="openComments()">
