@@ -97,6 +97,7 @@ export class ShwittesComponent implements OnInit {
 
   getShwitts() {
     this.shwittService.getShwitts().subscribe((res: any) => {
+      console.log(res);
       this.shwitts = res;
     });
   }
