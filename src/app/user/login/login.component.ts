@@ -41,6 +41,7 @@ export class LoginComponent implements OnInit {
       event.target.disabled = false;
       event.target.innerHTML = `Sign In`;
       localStorage.setItem('token', res.token);
+      console.log(res);
       this.router.navigate(['']);
     }, error => {
       this.loading = false;

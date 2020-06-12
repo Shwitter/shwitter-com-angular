@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 
 @Injectable({providedIn: 'root'})
 export class ShwittService {
-  baseUrl = 'http://29e41dc308ed.ngrok.io/'; //http://api.shwitter.localhost/
+  baseUrl = 'http://api.shwitter.localhost/';
   token;
   constructor(private http: HttpClient) {
   }
@@ -35,7 +35,7 @@ export class ShwittService {
 
   removeComment(comment_id, removeCommentBody) {
     console.log(removeCommentBody);
-    return this.http.post(`${this.baseUrl}comment/comment/${comment_id}`,  removeCommentBody);
+    return this.http.post(`${this.baseUrl}comment/delete/${removeCommentBody.comments_id}`, {comments_id: comment_id} );
   }
 
   likeShwitt(likeBody) {

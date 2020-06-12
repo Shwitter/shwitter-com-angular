@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import {ShwittService} from '../../shwittService/shwitt.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { Http2ServerRequest } from 'http2';
 
 @Component({
   selector: 'app-shwitt',
@@ -56,7 +57,10 @@ export class ShwittComponent implements OnInit {
 
   removeComment(comment) {
     this.shwittService.removeComment(this.shwitt.comments._id,{comments_id: comment._id}).subscribe(res => {
-      //TODO:
+      if(res) {
+        // return this.http.get('http://api.shwitter.localhost/shweet/${this.shwitt._id}').subscribe()
+        this.shwitt.comments = res;
+      }
     })
   }
 
@@ -93,6 +97,7 @@ export class ShwittComponent implements OnInit {
     const helper = new JwtHelperService();
 
     this.decodedToken = helper.decodeToken(token);
+    console.log(this.decodedToken);
     if(this.subscribes) {
       this.subscribes.forEach(sub => {
         if(sub._id === this.shwitt.author._id) {
@@ -106,14 +111,16 @@ export class ShwittComponent implements OnInit {
     }
     console.log(this.shwitt.likes);
 
-    this.shwitt.likes.forEach(element => {
-      console.log(this.currentUser);
-      if(element._id === this.currentUser._id) {
-        this.likes_length = this.shwitt.likes.length;
-        this.action = 'liked';
-      }
-    })
-
+    // setTimeout(() => {
+        this.shwitt.likes.forEach(element => {
+          console.log(this.currentUser);
+          if(this.currentUser)
+            if(element._id === this.currentUser._id) {
+              this.likes_length = this.shwitt.likes.length;
+              this.action = 'liked';
+            }
+        })
+    // }, 1000)
   }
 
 }
