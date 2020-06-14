@@ -1,9 +1,11 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
+
 
 @Injectable({providedIn: 'root'})
 export class AuthService {
-  baseUrl = 'http://api.shwitter.localhost/'; //http://api.shwitter.localhost/
+  baseUrl = environment.baseUrl;
 
   constructor(private http: HttpClient) {
   }

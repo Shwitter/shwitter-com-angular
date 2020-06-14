@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from '../userServices/auth.service';
 import {Router} from '@angular/router';
+import {WebSocketsService} from '../../shared/services/webSockets.service';
 
 @Component({
   selector: 'app-register',
@@ -13,7 +14,9 @@ export class RegisterComponent implements OnInit {
   errorMessage = '';
   loading = false;
 
-  constructor(private authService: AuthService, private router: Router) {
+  constructor(private authService: AuthService,
+              private router: Router,
+              private socketService: WebSocketsService) {
   }
 
   ngOnInit(): void {
@@ -43,6 +46,8 @@ export class RegisterComponent implements OnInit {
       event.target.disabled = false;
       event.target.innerHTML = `Sign Up`;
       localStorage.setItem('token', res.token);
+      this.socketService.emitNewUser(res.token);
+      localStorage.setItem('username', this.userRegisterForm.value.username);
       this.router.navigate(['']);
     }, error => {
       this.loading = false;

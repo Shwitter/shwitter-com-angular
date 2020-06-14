@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthService} from '../../user/userServices/auth.service';
 import {Router} from '@angular/router';
+import {faUser} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-header',
@@ -9,9 +10,17 @@ import {Router} from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(public authService: AuthService, private router: Router) { }
+  userIcon = faUser;
+
+  constructor(public authService: AuthService, private router: Router) {
+  }
 
   ngOnInit(): void {
+  }
+
+  getUserName() {
+    return localStorage.getItem('username');
+
   }
 
   signOut() {
