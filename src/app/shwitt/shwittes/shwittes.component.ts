@@ -61,7 +61,7 @@ export class ShwittesComponent implements OnInit {
       shweetimage: this.newShwitt.image // TODO::
     }
 
-    this.http.post(`http://api.shwitter.localhost/shweet/create`, newShwittBody).subscribe(res => {
+    this.http.post(`https://api.shwitter-cst.tk/shweet/create`, newShwittBody).subscribe(res => {
       if(res) {
         this.getShwitts();
       }

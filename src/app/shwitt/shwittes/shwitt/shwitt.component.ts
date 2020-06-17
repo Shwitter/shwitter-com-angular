@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import {ShwittService} from '../../shwittService/shwitt.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { WebSocketsService } from '../../../shared/services/webSockets.service'
 
 @Component({
   selector: 'app-shwitt',
@@ -21,13 +22,14 @@ export class ShwittComponent implements OnInit {
   decodedToken;
   likes_length;
   liked;
+  token;
 
-  constructor(private shwittService: ShwittService) { }
+  constructor(private shwittService: ShwittService, private WebSocketsService: WebSocketsService) { }
 
   handleLikeShwitt(action) {
     this.shwittService.likeShwitt({shweet_id: this.shwitt._id, liked: action}).subscribe((res: any) => {
-      this.likes_length = res.shweet.likes.length;
-      this.liked = res.shweet.liked;
+      this.likes_length = res.likes.length;
+      this.liked = res.liked;
       console.log(res);
     });
   }
@@ -64,23 +66,23 @@ export class ShwittComponent implements OnInit {
 
   // sub/unsub to a user
   subToUser() {
-    let user_id = {
-      user_id: this.shwitt.author._id
+    let sub = {
+      user_id: this.shwitt.author._id,
+      subscribed: true
     }
-    this.shwittService.subscribeToUser(user_id).subscribe((res: any) => {
-      if(res.action === "subscribed") {
-        this.unsub = true;
-        this.subbed = true;
-      }
+    this.shwittService.subscribeToUser(sub).subscribe((res: any) => {
+      this.shwitt.subscribed = res.subscribed;
+      this.WebSocketsService.userSubscribed(this.token)
     });
   }
 
   unsubToUser() {
-    let user_id = {
-      user_id: this.shwitt.author._id
+    let unsub = {
+      user_id: this.shwitt.author._id,
+      subscribed: false
     }
-    this.shwittService.subscribeToUser(user_id).subscribe((res: any) => {
-      console.log("unsubbed", res);
+    this.shwittService.subscribeToUser(unsub).subscribe((res: any) => {
+      this.shwitt.subscribed = res.subscribed;
     });
 
     this.subbed = false;
@@ -91,30 +93,12 @@ export class ShwittComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const token = localStorage.getItem('token');
+    this.token = localStorage.getItem('token');
     const helper = new JwtHelperService();
+    this.decodedToken = helper.decodeToken(this.token);
 
-    this.decodedToken = helper.decodeToken(token);
-    // if(this.subscribes) {
-    //   this.subscribes.forEach(sub => {
-    //     if(sub._id === this.shwitt.author._id) {
-    //       this.subbed = true;
-    //       this.unsub = true;
-    //     } else {
-    //       this.subbed = false;
-    //       this.unsub = false;
-    //     }
-    //   })
-    // }
-    // console.log(this.shwitt.likes);
-    //
-    // this.shwitt.likes.forEach(element => {
-    //   console.log(this.currentUser);
-    //   if(element._id === this.currentUser._id) {
-    //     this.likes_length = this.shwitt.likes.length;
-    //     this.action = 'liked';
-    //   }
-    // })
+    this.liked = this.shwitt.liked;
+    this.likes_length = this.shwitt.likes.length;
 
   }
 

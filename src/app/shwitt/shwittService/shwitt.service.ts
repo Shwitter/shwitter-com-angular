@@ -1,9 +1,10 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 @Injectable({providedIn: 'root'})
 export class ShwittService {
-  baseUrl = 'http://api.shwitter.localhost/';
+  baseUrl = environment.baseUrl;
   token;
   constructor(private http: HttpClient) {
   }
@@ -43,9 +44,7 @@ export class ShwittService {
   }
 
   getShwitts() {
-    return this.http.get(`${this.baseUrl}shweets/`, {
-      headers: this.token
-    });
+    return this.http.get(`${this.baseUrl}shweets`);
   }
 
   getSubShwitts() {

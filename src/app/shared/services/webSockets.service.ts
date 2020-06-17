@@ -38,4 +38,8 @@ export class WebSocketsService {
     });
   }
 
+  userSubscribed(data) {
+    this.socket.emit('user-subscribed', data);
+  }
+
 }

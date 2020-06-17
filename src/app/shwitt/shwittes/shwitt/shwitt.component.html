@@ -5,16 +5,16 @@
     </div>
     <div class="col-md-10">
       <div class="user-info-username">
-        {{ shwitt.author.username}}
+        {{ shwitt.author ? shwitt.author.username : 'Placeholder Username'}}
 
-        <button class="btn btn-primary p-1 m-1" *ngIf="shwitt.author._id !== decodedToken.user.id && !subbed" (click)="subToUser()">
+        <button class="btn btn-primary p-1 m-1" *ngIf="shwitt.author && shwitt.author._id !== decodedToken.user.id && !shwitt.subscribed" (click)="subToUser()">
             Subscribe
         </button>
 
-        <button class="btn btn-primary p-1 m-1" (mouseover)="unsub = true" *ngIf="!unsub && subbed">
-          Subscribed
-        </button>
-        <button class="btn btn-danger p-1 m-1"  (mouseleave)="unsub = false" *ngIf="unsub && subbed" (click)="unsubToUser()">
+<!--        <button class="btn btn-primary p-1 m-1" (mouseover)="unsub = true" *ngIf="!unsub && subbed">-->
+<!--          Subscribed-->
+<!--        </button>-->
+        <button class="btn btn-danger p-1 m-1" *ngIf="shwitt.subscribed" (click)="unsubToUser()">
           Unsubscribe
         </button>
       </div>
@@ -27,8 +27,8 @@
 
       <div class="button-container">
         <div class="m-2"  style="cursor: pointer">
-          <img *ngIf="action !== 'liked'" src="assets/images/shwitt_not_liked.png" alt="Like" (click)="handleLikeShwitt(true)">
-          <img *ngIf="action === 'liked'" src="assets/images/shwitt_liked.png" alt="Like" (click)="handleLikeShwitt(false)"><span class="ml-1 like-counter" *ngIf="action && likes_length > 0">{{ likes_length }}</span>
+          <img *ngIf="!liked" src="assets/images/shwitt_not_liked.png" alt="Like" (click)="handleLikeShwitt(true)">
+          <img *ngIf="liked" src="assets/images/shwitt_liked.png" alt="Like" (click)="handleLikeShwitt(false)"><span class="ml-1 like-counter" *ngIf="likes_length > 0">{{ likes_length }}</span>
         </div>
         <div class="m-2" style="cursor: pointer">
           <img src="assets/images/comment.png" alt="comment" (click)="openComments()">
