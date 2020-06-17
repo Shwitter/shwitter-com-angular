@@ -38,8 +38,21 @@ export class WebSocketsService {
     });
   }
 
+  getNewShwitt() {
+    return new Observable(observer => {
+      console.log(observer);
+      this.socket.on('shweet-created', result => {
+        observer.next(result);
+      })
+    })
+  }
+
   userSubscribed(data) {
     this.socket.emit('user-subscribed', data);
+  }
+
+  likeShwitt(data) {
+    this.socket.emit('like-shwitt', data);
   }
 
 }

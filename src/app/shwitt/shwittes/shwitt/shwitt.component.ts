@@ -30,7 +30,7 @@ export class ShwittComponent implements OnInit {
     this.shwittService.likeShwitt({shweet_id: this.shwitt._id, liked: action}).subscribe((res: any) => {
       this.likes_length = res.likes.length;
       this.liked = res.liked;
-      console.log(res);
+      this.WebSocketsService.likeShwitt({token: this.token }) //TODO:
     });
   }
 
@@ -72,8 +72,12 @@ export class ShwittComponent implements OnInit {
     }
     this.shwittService.subscribeToUser(sub).subscribe((res: any) => {
       this.shwitt.subscribed = res.subscribed;
-      this.WebSocketsService.userSubscribed(this.token)
+      this.WebSocketsService.userSubscribed({
+        token: this.token, user_id: this.shwitt.author._id
+      });
     });
+
+
   }
 
   unsubToUser() {
