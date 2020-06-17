@@ -40,8 +40,23 @@ export class WebSocketsService {
 
   getNewShwitt() {
     return new Observable(observer => {
-      console.log(observer);
       this.socket.on('shweet-created', result => {
+        observer.next(result);
+      })
+    });
+  };
+
+  getLikes() {
+    return new Observable(observer => {
+      this.socket.on('shweet-likes-changed', result => {
+        observer.next(result);
+      })
+    })
+  };
+
+  getComments() {
+    return new Observable(observer => {
+      this.socket.on('shweet-comments-added', result => {
         observer.next(result);
       })
     })

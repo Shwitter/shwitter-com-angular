@@ -38,8 +38,8 @@ export class ShwittesComponent implements OnInit {
     this.getMe();
 
     this.WebSocketService.getNewShwitt().subscribe((res: any) => {
-      console.log(res);
-      this.shwitts.unshift(res);
+      console.log(1);
+      this.shwitts.push(res.shweet);
     });
 
   }
