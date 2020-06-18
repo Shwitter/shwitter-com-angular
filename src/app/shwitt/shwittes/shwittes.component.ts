@@ -37,8 +37,8 @@ export class ShwittesComponent implements OnInit {
     }
     this.getMe();
     this.WebSocketService.getNewShwitt().subscribe((res: any) => {
+      console.log(res);
         this.shwitts.unshift(res.shweet);
-      // if(this.shwitts.length > 1) {
         var obj = {};
 
         for ( var i=0; i < this.shwitts.length; i++ )
@@ -47,38 +47,8 @@ export class ShwittesComponent implements OnInit {
         this.shwitts = new Array();
         for ( var key in obj )
           this.shwitts.push(obj[key]);
-      // }
-
     });
 
-    // this.WebSocketService.getLikes().subscribe((res: any) => {
-    //   console.log(res.shweet, res);
-    //   this.shwitts.unshift(res.shweet);
-    //   // this.getShwitts();
-    //   // this.shwitts.filter
-    //   var obj = {};
-    //
-    //   for ( var i=0; i < this.shwitts.length; i++ )
-    //     obj[this.shwitts[i]['_id']] = this.shwitts[i];
-    //
-    //   this.shwitts = new Array();
-    //   for ( var key in obj )
-    //     this.shwitts.push(obj[key]);
-    // });
-    //
-    // this.WebSocketService.getComments().subscribe((res: any) => {
-    //   this.shwitts.unshift(res.shweet);
-    //   // this.getShwitts();
-    //   // this.shwitts.filter
-    //   var obj = {};
-    //
-    //   for ( var i=0; i < this.shwitts.length; i++ )
-    //     obj[this.shwitts[i]['_id']] = this.shwitts[i];
-    //
-    //   this.shwitts = new Array();
-    //   for ( var key in obj )
-    //     this.shwitts.push(obj[key]);
-    // });
   }
 
   getMe() {
@@ -94,10 +64,10 @@ export class ShwittesComponent implements OnInit {
       shweetimage: this.newShwitt.image // TODO::
     }
 
-    this.http.post(`https://2975be7c61a1.ngrok.io/shweet/create`, newShwittBody).subscribe(res => { //api.shwitter-cst.tk/shweet/create
+    this.http.post(`https://api.shwitter-cst.tk`, newShwittBody).subscribe(res => { //api.shwitter-cst.tk/shweet/create
       if(res) {
-        this.getShwitts();
-        console.log(res);
+        this.shwitts.unshift(res);
+        this.newShwitt.text = '';
       }
     });
   }
@@ -127,7 +97,6 @@ export class ShwittesComponent implements OnInit {
 
   getShwitts() {
     this.shwittService.getShwitts().subscribe((res: any) => {
-      console.log(res);
       this.shwitts = res;
      });
   }
