@@ -106,12 +106,12 @@ export class ShwittComponent implements OnInit {
 
     this.WebSocketsService.getLikes().subscribe((res: any) => {
       console.log(res);
-      this.shwitt = res;
+      this.shwitt = res.shweet;
     });
 
     this.WebSocketsService.getComments().subscribe((res: any) => {
-      console.log(res);
-      this.shwitt = res;
+      console.log(res.shweet);
+      this.shwitt = res.shweet;
     })
 
   }

@@ -54,6 +54,8 @@ export class WebSocketsService {
     })
   };
 
+
+
   getComments() {
     return new Observable(observer => {
       this.socket.on('shweet-comments-added', result => {

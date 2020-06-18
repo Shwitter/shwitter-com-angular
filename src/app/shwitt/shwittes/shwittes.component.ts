@@ -36,12 +36,49 @@ export class ShwittesComponent implements OnInit {
       this.getShwitts();
     }
     this.getMe();
-
     this.WebSocketService.getNewShwitt().subscribe((res: any) => {
-      console.log(1);
-      this.shwitts.push(res.shweet);
+        this.shwitts.unshift(res.shweet);
+      // if(this.shwitts.length > 1) {
+        var obj = {};
+
+        for ( var i=0; i < this.shwitts.length; i++ )
+          obj[this.shwitts[i]['_id']] = this.shwitts[i];
+
+        this.shwitts = new Array();
+        for ( var key in obj )
+          this.shwitts.push(obj[key]);
+      // }
+
     });
 
+    // this.WebSocketService.getLikes().subscribe((res: any) => {
+    //   console.log(res.shweet, res);
+    //   this.shwitts.unshift(res.shweet);
+    //   // this.getShwitts();
+    //   // this.shwitts.filter
+    //   var obj = {};
+    //
+    //   for ( var i=0; i < this.shwitts.length; i++ )
+    //     obj[this.shwitts[i]['_id']] = this.shwitts[i];
+    //
+    //   this.shwitts = new Array();
+    //   for ( var key in obj )
+    //     this.shwitts.push(obj[key]);
+    // });
+    //
+    // this.WebSocketService.getComments().subscribe((res: any) => {
+    //   this.shwitts.unshift(res.shweet);
+    //   // this.getShwitts();
+    //   // this.shwitts.filter
+    //   var obj = {};
+    //
+    //   for ( var i=0; i < this.shwitts.length; i++ )
+    //     obj[this.shwitts[i]['_id']] = this.shwitts[i];
+    //
+    //   this.shwitts = new Array();
+    //   for ( var key in obj )
+    //     this.shwitts.push(obj[key]);
+    // });
   }
 
   getMe() {
@@ -60,6 +97,7 @@ export class ShwittesComponent implements OnInit {
     this.http.post(`https://2975be7c61a1.ngrok.io/shweet/create`, newShwittBody).subscribe(res => { //api.shwitter-cst.tk/shweet/create
       if(res) {
         this.getShwitts();
+        console.log(res);
       }
     });
   }
@@ -91,6 +129,6 @@ export class ShwittesComponent implements OnInit {
     this.shwittService.getShwitts().subscribe((res: any) => {
       console.log(res);
       this.shwitts = res;
-    });
+     });
   }
 }
