@@ -38,8 +38,38 @@ export class WebSocketsService {
     });
   }
 
+  getNewShwitt() {
+    return new Observable(observer => {
+      this.socket.on('shweet-created', result => {
+        observer.next(result);
+      })
+    });
+  };
+
+  getLikes() {
+    return new Observable(observer => {
+      this.socket.on('shweet-likes-changed', result => {
+        observer.next(result);
+      })
+    })
+  };
+
+
+
+  getComments() {
+    return new Observable(observer => {
+      this.socket.on('shweet-comments-added', result => {
+        observer.next(result);
+      })
+    })
+  }
+
   userSubscribed(data) {
     this.socket.emit('user-subscribed', data);
+  }
+
+  likeShwitt(data) {
+    this.socket.emit('like-shwitt', data);
   }
 
 }

@@ -4,7 +4,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import { Router } from '@angular/router';
 import {AuthService} from 'src/app/user/userServices/auth.service';
 import {HttpClient} from '@angular/common/http';
-
+import { WebSocketsService } from '../../shared/services/webSockets.service'
 
 
 @Component({
@@ -20,14 +20,13 @@ export class ShwittesComponent implements OnInit {
   subscribes;
   shwitts;
   currentUser;
-  // shwittForm: FormGroup;
-  urls = [];
 
   constructor(private shwittService: ShwittService,
               private router: Router,
               private authService: AuthService,
               private http: HttpClient,
-              private cd: ChangeDetectorRef) {
+              private cd: ChangeDetectorRef,
+              private WebSocketService: WebSocketsService) {
   }
 
   ngOnInit(): void {
@@ -36,12 +35,20 @@ export class ShwittesComponent implements OnInit {
     } else {
       this.getShwitts();
     }
+    this.getMe();
+    this.WebSocketService.getNewShwitt().subscribe((res: any) => {
+      console.log(res);
+        this.shwitts.unshift(res.shweet);
+        var obj = {};
 
-    // this.shwittForm = new FormGroup({
-    //   body: new FormControl('', [Validators.required]),
-    //   shweetimage: new FormControl('', [Validators.required])
-    // });
-    this.getMe()
+        for ( var i=0; i < this.shwitts.length; i++ )
+          obj[this.shwitts[i]['_id']] = this.shwitts[i];
+
+        this.shwitts = new Array();
+        for ( var key in obj )
+          this.shwitts.push(obj[key]);
+    });
+
   }
 
   getMe() {
@@ -52,23 +59,19 @@ export class ShwittesComponent implements OnInit {
   }
 
   shwitt() {
-    // const formData = new FormData();
-    // formData.append('body', this.shwittForm.value.body);
-    // formData.append('shweetimage', this.shwittForm.value.shweetimage);
-
     let newShwittBody = {
       body: this.newShwitt.text,
       shweetimage: this.newShwitt.image // TODO::
     }
 
-    this.http.post(`https://api.shwitter-cst.tk/shweet/create`, newShwittBody).subscribe(res => {
+    this.http.post(`https://api.shwitter-cst.tk`, newShwittBody).subscribe(res => { //api.shwitter-cst.tk/shweet/create
       if(res) {
-        this.getShwitts();
+        this.shwitts.unshift(res);
+        this.newShwitt.text = '';
       }
     });
-
-
   }
+
 
   ImageChange(event) {
     const reader = new FileReader();
@@ -78,9 +81,6 @@ export class ShwittesComponent implements OnInit {
       reader.readAsDataURL(file);
       console.log(reader.result);
       reader.onload = () => {
-        // this.shwittForm.patchValue({
-        //   shweetimage: reader.result
-        // });
         this.newShwitt.image = reader.result;
         console.log(this.newShwitt.image);
 
@@ -97,8 +97,7 @@ export class ShwittesComponent implements OnInit {
 
   getShwitts() {
     this.shwittService.getShwitts().subscribe((res: any) => {
-      console.log(res);
       this.shwitts = res;
-    });
+     });
   }
 }

@@ -30,7 +30,7 @@ export class ShwittComponent implements OnInit {
     this.shwittService.likeShwitt({shweet_id: this.shwitt._id, liked: action}).subscribe((res: any) => {
       this.likes_length = res.likes.length;
       this.liked = res.liked;
-      console.log(res);
+      this.WebSocketsService.likeShwitt({token: this.token }) //TODO:
     });
   }
 
@@ -72,8 +72,12 @@ export class ShwittComponent implements OnInit {
     }
     this.shwittService.subscribeToUser(sub).subscribe((res: any) => {
       this.shwitt.subscribed = res.subscribed;
-      this.WebSocketsService.userSubscribed(this.token)
+      this.WebSocketsService.userSubscribed({
+        token: this.token, user_id: this.shwitt.author._id
+      });
     });
+
+
   }
 
   unsubToUser() {
@@ -99,6 +103,21 @@ export class ShwittComponent implements OnInit {
 
     this.liked = this.shwitt.liked;
     this.likes_length = this.shwitt.likes.length;
+
+    this.WebSocketsService.getLikes().subscribe((res: any) => {
+      console.log(res);
+      if(this.shwitt._id === res.shweet._id) {
+        this.shwitt.likes = res.shweet.likes;
+        this.likes_length = res.shweet.likes.length;
+      }
+    });
+
+    this.WebSocketsService.getComments().subscribe((res: any) => {
+      console.log(res.shweet);
+      if(this.shwitt.comments._id === res.comments._id) {
+        this.shwitt.comments = res.comments;
+      }
+    })
 
   }
 

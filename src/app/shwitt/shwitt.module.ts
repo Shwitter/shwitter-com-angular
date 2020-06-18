@@ -17,6 +17,9 @@ import {ShwittInterceptorService} from "./shwittService/shwitt-interceptor.servi
     FormsModule,
     ReactiveFormsModule
   ],
+  exports: [
+    ShwittesComponent
+  ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

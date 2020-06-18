@@ -45,12 +45,12 @@
             <div class="commentAuthor">
               <div class="row">
                 <div class="col-md-10"> {{ comment.author.username }} </div>
-                <div class="edit-icon col-md-1 pl-2 pr-2" *ngIf="!comment.canUpdate" (click)="comment.canUpdate = true">
-                  <img src="https://img.icons8.com/pastel-glyph/64/000000/edit.png"/>
-                </div>
-                <div class="edit-icon col-md-1 pl-2 pr-2" *ngIf="!comment.canUpdate" (click)="removeComment(comment)">
-                  <img src="https://img.icons8.com/fluent/48/000000/minus.png"/>
-                </div>
+<!--                <div class="edit-icon col-md-1 pl-2 pr-2" *ngIf="!comment.canUpdate" (click)="comment.canUpdate = true">-->
+<!--                  <img src="https://img.icons8.com/pastel-glyph/64/000000/edit.png"/>-->
+<!--                </div>-->
+<!--                <div class="edit-icon col-md-1 pl-2 pr-2" *ngIf="!comment.canUpdate" (click)="removeComment(comment)">-->
+<!--                  <img src="https://img.icons8.com/fluent/48/000000/minus.png"/>-->
+<!--                </div>-->
               </div>
               <div *ngIf="!comment.canUpdate"> {{ comment.body }}</div>
               <div *ngIf="comment.canUpdate">
