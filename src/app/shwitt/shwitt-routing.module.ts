@@ -5,8 +5,8 @@ import { ShwittComponent} from './shwittes/shwitt/shwitt.component';
 import {ShwittesComponent} from './shwittes/shwittes.component';
 
 const routes: Routes = [
-  { path: 'shwittes', component: ShwittesComponent, children: [{
-    path: ':id', component: ShwittComponent}]},
+  { path: 'shwittes', component: ShwittesComponent},
+  { path: 'shwittes/:id', component: ShwittComponent}
 
 ];
 

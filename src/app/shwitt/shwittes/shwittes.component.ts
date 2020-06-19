@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import {AuthService} from 'src/app/user/userServices/auth.service';
 import {HttpClient} from '@angular/common/http';
 import { WebSocketsService } from '../../shared/services/webSockets.service'
+import {JwtHelperService} from "@auth0/angular-jwt";
 
 
 @Component({
@@ -20,6 +21,8 @@ export class ShwittesComponent implements OnInit {
   subscribes;
   shwitts;
   currentUser;
+  token;
+  decodedToken;
 
   constructor(private shwittService: ShwittService,
               private router: Router,
@@ -49,6 +52,10 @@ export class ShwittesComponent implements OnInit {
           this.shwitts.push(obj[key]);
     });
 
+    this.token = localStorage.getItem('token');
+    const helper = new JwtHelperService();
+    this.decodedToken = helper.decodeToken(this.token);
+
   }
 
   getMe() {
@@ -64,10 +71,11 @@ export class ShwittesComponent implements OnInit {
       shweetimage: this.newShwitt.image // TODO::
     }
 
-    this.http.post(`https://api.shwitter-cst.tk`, newShwittBody).subscribe(res => { //api.shwitter-cst.tk/shweet/create
+    this.http.post(`https://577a9999a64a.ngrok.io/shweet/create`, newShwittBody).subscribe(res => { //api.shwitter-cst.tk/shweet/create
       if(res) {
         this.shwitts.unshift(res);
         this.newShwitt.text = '';
+        this.WebSocketService.notificationCount({jwt: this.token})
       }
     });
   }

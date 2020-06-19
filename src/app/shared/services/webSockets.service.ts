@@ -72,4 +72,25 @@ export class WebSocketsService {
     this.socket.emit('like-shwitt', data);
   }
 
+  notificationCount(data) {
+    this.socket.emit('notification-count', data);
+  }
+
+  getNotificationCount() {
+      return new Observable(observer => {
+        this.socket.on('notification-count', result => {
+          observer.next(result);
+          debugger
+        })
+      })
+  }
+
+  notificationsCount() {
+    return new Observable(observer => {
+      this.socket.on('notifications-count', result => {
+        observer.next(result);
+      })
+    })
+  }
+
 }

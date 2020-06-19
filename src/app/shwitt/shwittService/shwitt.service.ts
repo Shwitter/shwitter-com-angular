@@ -47,6 +47,10 @@ export class ShwittService {
     return this.http.get(`${this.baseUrl}shweets`);
   }
 
+  getSingleShwitt(id) {
+    return this.http.get(`${this.baseUrl}shweet/` + id);
+  }
+
   getSubShwitts() {
     return this.http.get(`${this.baseUrl}subscribed-shweets`);
   }
