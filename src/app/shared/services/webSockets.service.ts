@@ -80,7 +80,6 @@ export class WebSocketsService {
       return new Observable(observer => {
         this.socket.on('notification-count', result => {
           observer.next(result);
-          debugger
         })
       })
   }

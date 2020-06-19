@@ -51,7 +51,6 @@ export class HeaderComponent implements OnInit {
     });
 
     this.WebSocketsService.notificationsCount().subscribe((res : any) => {
-      debugger
       this.count = res;
     })
   }
