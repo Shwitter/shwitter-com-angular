@@ -39,7 +39,7 @@ export class HomeComponent implements OnInit {
         console.log(this.user.avatar);
         haveImage = true
         this.cd.markForCheck();
-        this.http.post(`https://ea93b4cfbbef.ngrok.io/user/update`, {
+        this.http.post(`https://api.shwitter-cst.tk/user/update`, {
           avatar: this.user.avatar
         }).subscribe((res : any) => {
           this.user = res;
