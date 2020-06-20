@@ -5,22 +5,80 @@
     </div>
     <div class="col-md-10">
       <div class="user-info-username">
-        Test Test
+        {{ shwitt.author ? shwitt.author.username : 'Placeholder Username'}}
+
+        <button class="btn btn-primary p-1 m-1" *ngIf="shwitt.author && shwitt.author._id !== decodedToken.user.id && !shwitt.subscribed" (click)="subToUser()">
+            Subscribe
+        </button>
+
+<!--        <button class="btn btn-primary p-1 m-1" (mouseover)="unsub = true" *ngIf="!unsub && subbed">-->
+<!--          Subscribed-->
+<!--        </button>-->
+        <button class="btn btn-danger p-1 m-1" *ngIf="shwitt.subscribed" (click)="unsubToUser()">
+          Unsubscribe
+        </button>
       </div>
       <div class="shwitt-text pt-2">
-<!--        <img src="https://image.shutterstock.com/image-photo/portrait-smiling-red-haired-millennial-260nw-1194497251.jpg" alt="">-->
-          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+        {{ shwitt.body }}
+      </div>
+      <div class="mt-2">
+        <img [src]="shwitt.shweetimages ? shwitt.shweetimages[0] : null" alt="">
       </div>
 
       <div class="button-container">
-        <div class="m-2">
-          <img *ngIf="othersShwitt.liked === 0 || othersShwitt.liked === null" (click)="likeShwitt()" src="assets/images/shwitt_not_liked.png" alt="Like">
-          <img *ngIf="othersShwitt.liked > 0" (click)="dislikeShwitt()" src="assets/images/shwitt_liked.png" alt="Like"><span class="ml-1 like-counter" *ngIf="othersShwitt.liked > 0">{{ othersShwitt.liked }}</span>
+        <div class="m-2"  style="cursor: pointer">
+          <img *ngIf="!liked" src="assets/images/shwitt_not_liked.png" alt="Like" (click)="handleLikeShwitt(true)">
+          <img *ngIf="liked" src="assets/images/shwitt_liked.png" alt="Like" (click)="handleLikeShwitt(false)"><span class="ml-1 like-counter" *ngIf="likes_length > 0">{{ likes_length }}</span>
         </div>
-        <div class="m-2">
-          <img src="assets/images/comment.png" alt="comment">
+        <div class="m-2" style="cursor: pointer">
+          <img src="assets/images/comment.png" alt="comment" (click)="openComments()">
         </div>
       </div>
+    </div>
+  </div>
+  <div class="comments" *ngIf="commentOpen">
+    <div *ngIf="shwitt.comments">
+      <div class="comment" *ngFor="let comment of shwitt.comments.comments">
+        <div class="row">
+          <div class="col-md-2"></div>
+          <div class="col-md-10">
+            <div class="commentAuthor">
+              <div class="row">
+                <div class="col-md-10"> {{ comment.author.username }} </div>
+<!--                <div class="edit-icon col-md-1 pl-2 pr-2" *ngIf="!comment.canUpdate" (click)="comment.canUpdate = true">-->
+<!--                  <img src="https://img.icons8.com/pastel-glyph/64/000000/edit.png"/>-->
+<!--                </div>-->
+<!--                <div class="edit-icon col-md-1 pl-2 pr-2" *ngIf="!comment.canUpdate" (click)="removeComment(comment)">-->
+<!--                  <img src="https://img.icons8.com/fluent/48/000000/minus.png"/>-->
+<!--                </div>-->
+              </div>
+              <div *ngIf="!comment.canUpdate"> {{ comment.body }}</div>
+              <div *ngIf="comment.canUpdate">
+                <textarea type="text" class="form-control" [(ngModel)]="comment.body"></textarea>
+              </div>
+              <div class="btn btn-success p-1 pl-2 pr-2 mt-2 mr-2" *ngIf="comment.canUpdate" (click)="updateComment(comment)">
+                <img style="width: 15px" src="https://img.icons8.com/android/24/000000/checkmark.png"/>
+              </div>
+              <div class="btn btn-danger p-1 pl-2 pr-2 mt-2" *ngIf="comment.canUpdate" (click)="comment.canUpdate = false">
+                <img style="width: 15px" src="https://img.icons8.com/pastel-glyph/64/000000/cancel.png"/>
+              </div>
+              <div class="pull-right date">
+                {{ comment.updated | date: 'short' }}
+              </div>
+            </div>
+<!--            <div class="editComment" *ngIf=""></div>-->
+
+          </div>
+        </div>
+      </div>
+    </div>
+<!--    <div class="noComment" *ngIf="!shwitt.comments.length === 0 || shwitt.comments.comments.length === 0">-->
+<!--      There are no comments yet-->
+<!--    </div>-->
+    <hr>
+    <div class="userComment form-group">
+      <input type="text" class="form-control" [(ngModel)]="userComment" placeholder="Comment">
+      <button class="btn btn-primary mt-2" (click)="comment()" >Comment</button>
     </div>
   </div>
 </div>

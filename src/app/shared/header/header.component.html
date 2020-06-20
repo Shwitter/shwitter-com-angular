@@ -16,6 +16,21 @@
     </li>
   </ul>
   <ul *ngIf="authService.isAuthenticated()" class="navbar-nav ml-auto">
+    <div class="notification">
+      <button type="button" (click)="showNotifications = !showNotifications" class="btn btn-light pull-right">
+        <fa-icon [icon]="notificationIcon"></fa-icon>
+      </button>
+      <div class="notification-div" *ngIf="showNotifications">
+        <div class="triangle"></div>
+        <div *ngIf="!newNotification">
+          You don't have any notifications
+        </div>
+        <div *ngIf="newNotification">
+          You don't have any notifications
+        </div>
+      </div>
+    </div>
+    &nbsp;
     <button routerLink="profile" type="button" class="btn btn-light">
       <fa-icon [icon]="userIcon"></fa-icon> {{ getUserName() }}
     </button>&nbsp;&nbsp;
