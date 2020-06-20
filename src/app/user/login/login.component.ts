@@ -30,6 +30,7 @@ export class LoginComponent implements OnInit {
       username: new FormControl('', [Validators.required]),
       password: new FormControl('', [Validators.required])
     });
+
   }
 
   login(event: any) {

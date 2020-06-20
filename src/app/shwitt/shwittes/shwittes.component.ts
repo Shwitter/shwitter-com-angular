@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import {AuthService} from 'src/app/user/userServices/auth.service';
 import {HttpClient} from '@angular/common/http';
 import { WebSocketsService } from '../../shared/services/webSockets.service'
+import {JwtHelperService} from "@auth0/angular-jwt";
 
 
 @Component({
@@ -20,6 +21,8 @@ export class ShwittesComponent implements OnInit {
   subscribes;
   shwitts;
   currentUser;
+  token;
+  decodedToken;
 
   constructor(private shwittService: ShwittService,
               private router: Router,
@@ -41,13 +44,19 @@ export class ShwittesComponent implements OnInit {
         this.shwitts.unshift(res.shweet);
         var obj = {};
 
-        for ( var i=0; i < this.shwitts.length; i++ )
+        for ( var i=0; i < this.shwitts.length; i++ ) {
           obj[this.shwitts[i]['_id']] = this.shwitts[i];
+        }
 
         this.shwitts = new Array();
-        for ( var key in obj )
+        for ( var key in obj ) {
           this.shwitts.push(obj[key]);
+        }
     });
+
+    this.token = localStorage.getItem('token');
+    const helper = new JwtHelperService();
+    this.decodedToken = helper.decodeToken(this.token);
 
   }
 
@@ -64,10 +73,11 @@ export class ShwittesComponent implements OnInit {
       shweetimage: this.newShwitt.image // TODO::
     }
 
-    this.http.post(`https://api.shwitter-cst.tk`, newShwittBody).subscribe(res => { //api.shwitter-cst.tk/shweet/create
+    this.http.post(`https://ea93b4cfbbef.ngrok.io/shweet/create`, newShwittBody).subscribe(res => { //api.shwitter-cst.tk/shweet/create
       if(res) {
         this.shwitts.unshift(res);
         this.newShwitt.text = '';
+        this.WebSocketService.notificationCount({jwt: this.token})
       }
     });
   }
@@ -82,7 +92,6 @@ export class ShwittesComponent implements OnInit {
       console.log(reader.result);
       reader.onload = () => {
         this.newShwitt.image = reader.result;
-        console.log(this.newShwitt.image);
 
         this.cd.markForCheck();
       };

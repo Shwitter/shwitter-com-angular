@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import {ShwittService} from '../../shwittService/shwitt.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { WebSocketsService } from '../../../shared/services/webSockets.service'
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-shwitt',
@@ -23,14 +24,17 @@ export class ShwittComponent implements OnInit {
   likes_length;
   liked;
   token;
+  username;
+  singleShwittId;
 
-  constructor(private shwittService: ShwittService, private WebSocketsService: WebSocketsService) { }
+  constructor(private shwittService: ShwittService, private WebSocketsService: WebSocketsService, private ActivatedRoute: ActivatedRoute) { }
 
   handleLikeShwitt(action) {
     this.shwittService.likeShwitt({shweet_id: this.shwitt._id, liked: action}).subscribe((res: any) => {
       this.likes_length = res.likes.length;
       this.liked = res.liked;
-      this.WebSocketsService.likeShwitt({token: this.token }) //TODO:
+      // this.WebSocketsService.likeShwitt({token: this.token }) //TODO:
+      this.WebSocketsService.notificationCount({jwt: this.token})
     });
   }
 
@@ -39,9 +43,11 @@ export class ShwittComponent implements OnInit {
   }
 
   comment() {
-    this.shwittService.commentOnShwitt({comment_id: this.shwitt.comments? this.shwitt.comments._id : null, body: this.userComment}).subscribe((res: any)=> {
+    this.shwittService.commentOnShwitt({comment_id: this.shwitt.comments ? this.shwitt.comments._id : null, body: this.userComment, shwitt_id: this.shwitt._id}).subscribe((res: any)=> {
       this.shwitt.comments = res;
       this.userComment = null;
+      this.WebSocketsService.notificationComment({jwt: this.token})
+      this.WebSocketsService.notificationCount({jwt: this.token})
     })
   }
 
@@ -72,9 +78,11 @@ export class ShwittComponent implements OnInit {
     }
     this.shwittService.subscribeToUser(sub).subscribe((res: any) => {
       this.shwitt.subscribed = res.subscribed;
-      this.WebSocketsService.userSubscribed({
-        token: this.token, user_id: this.shwitt.author._id
-      });
+      // this.WebSocketsService.userSubscribed({
+      //   token: this.token, user_id: this.shwitt.author._id
+      // });
+      this.WebSocketsService.userSubscribed({username: this.shwitt.author.username, user_id: this.shwitt.author._id});
+      this.WebSocketsService.notificationCount({jwt: this.token});
     });
 
 
@@ -87,16 +95,24 @@ export class ShwittComponent implements OnInit {
     }
     this.shwittService.subscribeToUser(unsub).subscribe((res: any) => {
       this.shwitt.subscribed = res.subscribed;
+      this.WebSocketsService.userUnsubscribed({username: this.shwitt.author.username, user_id: this.shwitt.author._id})
+      this.WebSocketsService.notificationCount({jwt: this.token})
     });
 
     this.subbed = false;
   }
 
-  getUser() {
-
-  }
-
   ngOnInit(): void {
+    this.ActivatedRoute.params.subscribe(params => {
+      this.singleShwittId = params['id'];
+    })
+
+    if( this.singleShwittId) {
+      this.shwittService.getSingleShwitt(this.singleShwittId).subscribe((res : any) => {
+        this.shwitt = res;
+      })
+    }
+    this.username = localStorage.getItem('username');
     this.token = localStorage.getItem('token');
     const helper = new JwtHelperService();
     this.decodedToken = helper.decodeToken(this.token);
@@ -105,7 +121,6 @@ export class ShwittComponent implements OnInit {
     this.likes_length = this.shwitt.likes.length;
 
     this.WebSocketsService.getLikes().subscribe((res: any) => {
-      console.log(res);
       if(this.shwitt._id === res.shweet._id) {
         this.shwitt.likes = res.shweet.likes;
         this.likes_length = res.shweet.likes.length;
@@ -113,12 +128,10 @@ export class ShwittComponent implements OnInit {
     });
 
     this.WebSocketsService.getComments().subscribe((res: any) => {
-      console.log(res.shweet);
       if(this.shwitt.comments._id === res.comments._id) {
         this.shwitt.comments = res.comments;
       }
     })
-
   }
 
 }

@@ -65,11 +65,39 @@ export class WebSocketsService {
   }
 
   userSubscribed(data) {
-    this.socket.emit('user-subscribed', data);
+    this.socket.emit('subscribed-notification', data);
+  }
+
+  userUnsubscribed(data) {
+    this.socket.emit('unsubscribed-notification', data);
   }
 
   likeShwitt(data) {
     this.socket.emit('like-shwitt', data);
+  }
+
+  notificationComment(data) {
+    this.socket.emit('notification-comment', data);
+  }
+
+  notificationCount(data) {
+    this.socket.emit('notification-count', data);
+  }
+
+  getNotificationCount() {
+      return new Observable(observer => {
+        this.socket.on('new-notification', result => {
+          observer.next(result);
+        })
+      })
+  }
+
+  notificationsCount() {
+    return new Observable(observer => {
+      this.socket.on('notifications-count', result => {
+        observer.next(result);
+      })
+    })
   }
 
 }
