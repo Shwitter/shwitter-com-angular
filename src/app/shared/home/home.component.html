@@ -1,15 +1,15 @@
 <div class="">
   <div class="row pr-0" style="margin-right: 0">
-<!--    <div class="row" style="text-align: center">-->
-<!--      <img-->
-<!--        style="width: 220px; margin: 0 auto;"-->
-<!--        src="assets/images/logo.png"-->
-<!--        alt="sdf">-->
-<!--    </div>-->
-<!--    <div class="row">-->
-<!--      <h1 class="welcomeTitle">Welcome To Shwitter</h1>-->
-<!--    </div>-->
-    <div class="col-md-4">
+    <div class="row" style="text-align: center" *ngIf="!authService.isAuthenticated()">
+      <img
+        style="width: 220px; margin: 0 auto;"
+        src="assets/images/logo.png"
+        alt="sdf">
+    </div>
+    <div class="row" *ngIf="!authService.isAuthenticated()">
+      <h1 class="welcomeTitle">Welcome To Shwitter</h1>
+    </div>
+    <div class="col-md-4" *ngIf="authService.isAuthenticated()">
       <div style="position: fixed; border-right: 2px solid #5f53ad">
         <div style="display: flex; align-items: center; padding: 30px;">
           <div style="position:relative; border-radius: 50px; display: flex; width: 100px;">
@@ -25,11 +25,11 @@
           <h3 style="margin-left: 20px">{{user.username}}</h3>
         </div>
         <div class="p-3">
-          Subscribers {{ user.subscribers.length }} | Subscribed To {{ user.subscribes.length }}
+          Subscribers {{ user.subscribers ? user.subscribers.length : 0 }} | Subscribed To {{ user.subscribes ? user.subscribes.length : 0 }}
         </div>
       </div>
     </div>
     <app-shwittes class="col-md-4"></app-shwittes>
-    <div class="col-md-3 p-0"></div>
+    <div class="col-md-3 p-0" style="opacity: 0"></div>
   </div>
 </div>

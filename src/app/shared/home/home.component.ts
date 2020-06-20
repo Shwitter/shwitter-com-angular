@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import {ShwittService} from '../../shwitt/shwittService/shwitt.service';
 import {HttpClient} from '@angular/common/http';
+import {AuthService} from '../../user/userServices/auth.service';
 
 
 @Component({
@@ -10,12 +11,19 @@ import {HttpClient} from '@angular/common/http';
 })
 export class HomeComponent implements OnInit {
   user : any;
-  constructor(private homeService: ShwittService, private cd: ChangeDetectorRef, private http: HttpClient) { }
+
+  constructor(private homeService: ShwittService, private cd: ChangeDetectorRef, private http: HttpClient, public authService: AuthService) {
+
+  }
 
   ngOnInit(): void {
-    this.homeService.getMe().subscribe((res : any) => {
-      this.user = res;
-    });
+    this.user = {}
+    this.user.avatar = 'public/avatar.png';
+    if(this.authService.isAuthenticated()) {
+      this.homeService.getMe().subscribe((res : any) => {
+        this.user = res;
+      });
+    }
   }
 
   uploadImage(event) {

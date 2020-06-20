@@ -65,11 +65,19 @@ export class WebSocketsService {
   }
 
   userSubscribed(data) {
-    this.socket.emit('user-subscribed', data);
+    this.socket.emit('subscribed-notification', data);
+  }
+
+  userUnsubscribed(data) {
+    this.socket.emit('unsubscribed-notification', data);
   }
 
   likeShwitt(data) {
     this.socket.emit('like-shwitt', data);
+  }
+
+  notificationComment(data) {
+    this.socket.emit('notification-comment', data);
   }
 
   notificationCount(data) {
@@ -78,7 +86,7 @@ export class WebSocketsService {
 
   getNotificationCount() {
       return new Observable(observer => {
-        this.socket.on('notification-count', result => {
+        this.socket.on('new-notification', result => {
           observer.next(result);
         })
       })

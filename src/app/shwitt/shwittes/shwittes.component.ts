@@ -44,12 +44,14 @@ export class ShwittesComponent implements OnInit {
         this.shwitts.unshift(res.shweet);
         var obj = {};
 
-        for ( var i=0; i < this.shwitts.length; i++ )
+        for ( var i=0; i < this.shwitts.length; i++ ) {
           obj[this.shwitts[i]['_id']] = this.shwitts[i];
+        }
 
         this.shwitts = new Array();
-        for ( var key in obj )
+        for ( var key in obj ) {
           this.shwitts.push(obj[key]);
+        }
     });
 
     this.token = localStorage.getItem('token');

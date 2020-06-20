@@ -74,11 +74,13 @@ export class HeaderComponent implements OnInit {
 
           let notification_ids = [];
           this.notificationArr.forEach(notification => {
-            if( notification.type === 'subscribe') {
-              notification_ids.push(notification.notification_id);
+            if( notification.type === 'subscribe' || notification.type === 'unsubscribe') {
+              notification_ids.push(notification._id);
             }
           });
-          this.NotificationService.updateSubStatus(notification_ids).subscribe(res =>{})
+          this.NotificationService.updateSubStatus(notification_ids).subscribe(res =>{
+            this.count = res;
+          })
         }
       });
     }

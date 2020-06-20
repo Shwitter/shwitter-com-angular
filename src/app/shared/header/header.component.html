@@ -16,14 +16,14 @@
     </li>
   </ul>
   <ul *ngIf="authService.isAuthenticated()" class="navbar-nav ml-auto">
-    <div class="notification">
+    <div class="notification" style="z-index: 999;">
       <button type="button" (click)="getNotifications()" class="btn btn-light pull-right">
         {{ count }}
         <fa-icon [icon]="notificationIcon"></fa-icon>
       </button>
-      <div class="notification-div" *ngIf="showNotifications">
+      <div class="notification-div" style="max-height: 300px; overflow-y: auto; overflow-x: hidden" *ngIf="showNotifications">
         <div class="triangle"></div>
-        <div *ngIf="!newNotification">
+        <div class="p-3" *ngIf="!newNotification">
           You don't have any notifications
         </div>
         <div *ngIf="newNotification">

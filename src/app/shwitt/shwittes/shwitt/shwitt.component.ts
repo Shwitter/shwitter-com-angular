@@ -24,6 +24,7 @@ export class ShwittComponent implements OnInit {
   likes_length;
   liked;
   token;
+  username;
   singleShwittId;
 
   constructor(private shwittService: ShwittService, private WebSocketsService: WebSocketsService, private ActivatedRoute: ActivatedRoute) { }
@@ -45,6 +46,7 @@ export class ShwittComponent implements OnInit {
     this.shwittService.commentOnShwitt({comment_id: this.shwitt.comments ? this.shwitt.comments._id : null, body: this.userComment, shwitt_id: this.shwitt._id}).subscribe((res: any)=> {
       this.shwitt.comments = res;
       this.userComment = null;
+      this.WebSocketsService.notificationComment({jwt: this.token})
       this.WebSocketsService.notificationCount({jwt: this.token})
     })
   }
@@ -79,7 +81,8 @@ export class ShwittComponent implements OnInit {
       // this.WebSocketsService.userSubscribed({
       //   token: this.token, user_id: this.shwitt.author._id
       // });
-      this.WebSocketsService.notificationCount({jwt: this.token})
+      this.WebSocketsService.userSubscribed({username: this.shwitt.author.username, user_id: this.shwitt.author._id});
+      this.WebSocketsService.notificationCount({jwt: this.token});
     });
 
 
@@ -92,14 +95,11 @@ export class ShwittComponent implements OnInit {
     }
     this.shwittService.subscribeToUser(unsub).subscribe((res: any) => {
       this.shwitt.subscribed = res.subscribed;
+      this.WebSocketsService.userUnsubscribed({username: this.shwitt.author.username, user_id: this.shwitt.author._id})
       this.WebSocketsService.notificationCount({jwt: this.token})
     });
 
     this.subbed = false;
-  }
-
-  getUser() {
-
   }
 
   ngOnInit(): void {
@@ -112,7 +112,7 @@ export class ShwittComponent implements OnInit {
         this.shwitt = res;
       })
     }
-
+    this.username = localStorage.getItem('username');
     this.token = localStorage.getItem('token');
     const helper = new JwtHelperService();
     this.decodedToken = helper.decodeToken(this.token);
@@ -121,7 +121,6 @@ export class ShwittComponent implements OnInit {
     this.likes_length = this.shwitt.likes.length;
 
     this.WebSocketsService.getLikes().subscribe((res: any) => {
-      console.log(res);
       if(this.shwitt._id === res.shweet._id) {
         this.shwitt.likes = res.shweet.likes;
         this.likes_length = res.shweet.likes.length;
@@ -129,17 +128,10 @@ export class ShwittComponent implements OnInit {
     });
 
     this.WebSocketsService.getComments().subscribe((res: any) => {
-      console.log(res.shweet);
       if(this.shwitt.comments._id === res.comments._id) {
         this.shwitt.comments = res.comments;
       }
     })
-
-
-
-    console.log(this.ActivatedRoute.snapshot.params.id);
-
-
   }
 
 }
