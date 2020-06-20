@@ -73,7 +73,7 @@ export class ShwittesComponent implements OnInit {
       shweetimage: this.newShwitt.image // TODO::
     }
 
-    this.http.post(`https://ea93b4cfbbef.ngrok.io/shweet/create`, newShwittBody).subscribe(res => { //api.shwitter-cst.tk/shweet/create
+    this.http.post(`https://api.shwitter-cst.tk/shweet/create`, newShwittBody).subscribe(res => { //api.shwitter-cst.tk/shweet/create
       if(res) {
         this.shwitts.unshift(res);
         this.newShwitt.text = '';
