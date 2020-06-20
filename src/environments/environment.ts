@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  baseUrl: 'https://api.shwitter-cst.tk/' //https://api.shwitter-cst.tk/
+  baseUrl: 'https://ea93b4cfbbef.ngrok.io/' //https://api.shwitter-cst.tk/
 
 };
 

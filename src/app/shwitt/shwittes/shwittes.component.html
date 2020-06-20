@@ -5,16 +5,15 @@
 <!--    </div>-->
     <div class="col-md-12">
       <div class="user-info-username">
-        Express Yourself:
       </div>
       <div class="user-uploaded-img">
-          <img class="user-uploaded-img" *ngIf="newShwitt.image" [src]="newShwitt.image" alt="">
+          <img class="user-uploaded-img" style="width: 200px; margin: 0 auto;" *ngIf="newShwitt.image" [src]="newShwitt.image" alt="">
         <div *ngIf="newShwitt.image" (click)="newShwitt.image = null" style="position: absolute; top: 15px; right: 15px; font-size: 20px; font-weight: bold; cursor: pointer">
           X
         </div>
       </div>
       <div class="shwitt-text pt-2">
-        <textarea class="form-control" [required]="true" [(ngModel)]="newShwitt.text" placeholder="" name="body" id="shwitt" cols="30" rows="10"></textarea>
+        <textarea class="form-control" [placeholder]="'Shwitt away...'" [required]="true" [(ngModel)]="newShwitt.text" placeholder="" name="body" id="shwitt" cols="30" rows="3"></textarea>
       </div>
     </div>
     <div class="post-buttons float-right">
@@ -28,12 +27,13 @@
 </form>
 
 <div class="shwitt-categories">
-  <div class="subscribed-shwitts col-md-6" (click)="getSubShwitts()">
-    Subscriber Shwitts
-  </div>
-  <div class="all-shwitts col-md-6 ml-2" (click)="getShwitts()">
+  <div class="all-shwitts col-md-6" (click)="getShwitts()">
     All Shwitts
   </div>
+  <div class="subscribed-shwitts col-md-6 ml-2" (click)="getSubShwitts()">
+    Subscriber Shwitts
+  </div>
+
 </div>
 
 <div *ngFor="let shwitt of shwitts">
