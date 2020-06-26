@@ -9,7 +9,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body" style="overflow-y: auto;">
+      <div class="modal-body" id="scroll">
         <div *ngFor="let msg of messages">
           <div *ngIf="msg.sender === this.username">
             <div class="d-flex justify-content-start mb-4">
@@ -45,7 +45,7 @@
                       cols="1" rows="1"
                       placeholder="Type your message..."
                       [(ngModel)]="message"
-                      style="width: 100%; border: 1px solid #5f53ad; border-radius: 5px; height: 100px;"></textarea>
+                      style="border: 1px solid #5f53ad; border-radius: 5px; height: 100px;"></textarea>
             <div (click)="sendMessage()" class="input-group-append">
               <span class="input-group-text send_btn"><fa-icon [icon]="sendArrow"></fa-icon></span>
             </div>

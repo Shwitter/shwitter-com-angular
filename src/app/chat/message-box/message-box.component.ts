@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {faLocationArrow} from '@fortawesome/free-solid-svg-icons';
 import {ChatService} from '../chat.service';
 import {WebSocketsService} from '../../shared/services/webSockets.service';
@@ -12,6 +12,7 @@ export class MessageBoxComponent implements OnInit {
   sendArrow = faLocationArrow;
   @Output() closeM: EventEmitter<any> = new EventEmitter<any>();
   @Input() username: string;
+  @ViewChild('scroll') private myScrollContainer: ElementRef;
   message: string;
   messages = [];
 
@@ -21,11 +22,18 @@ export class MessageBoxComponent implements OnInit {
   ngOnInit(): void {
     this.socketService.receiveMessage().subscribe(msg => {
       this.messages.push(msg);
+      this.scrollToBottom();
     });
     this.socketService.getOldMessages().subscribe((msg: any) => {
-      console.log(msg);
       this.messages.push(...msg);
+      this.scrollToBottom();
     });
+  }
+
+  scrollToBottom(): void {
+    try {
+      this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
+    } catch(err) { }
   }
 
   closeMessenger() {
