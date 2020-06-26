@@ -22,18 +22,10 @@ export class MessageBoxComponent implements OnInit {
   ngOnInit(): void {
     this.socketService.receiveMessage().subscribe(msg => {
       this.messages.push(msg);
-      this.scrollToBottom();
     });
     this.socketService.getOldMessages().subscribe((msg: any) => {
       this.messages.push(...msg);
-      this.scrollToBottom();
     });
-  }
-
-  scrollToBottom(): void {
-    try {
-      this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
-    } catch(err) { }
   }
 
   closeMessenger() {
