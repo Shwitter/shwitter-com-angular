@@ -9,7 +9,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body" style="overflow-y: auto;">
         <div *ngFor="let msg of messages">
           <div *ngIf="msg.sender === this.username">
             <div class="d-flex justify-content-start mb-4">
